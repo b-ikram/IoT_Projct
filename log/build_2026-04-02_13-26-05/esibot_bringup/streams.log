@@ -1,0 +1,39 @@
+[0.516s] Invoking command in '/home/idris/esibot_ws/src/esibot_bringup': PYTHONPATH=/home/idris/esibot_ws/build/esibot_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/idris/esibot_ws/install/esibot_bringup/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/esibot_bringup build --build-base /home/idris/esibot_ws/build/esibot_bringup/build install --record /home/idris/esibot_ws/build/esibot_bringup/install.log --single-version-externally-managed install_data
+[0.697s] running egg_info
+[0.697s] creating ../../build/esibot_bringup/esibot_bringup.egg-info
+[0.697s] writing ../../build/esibot_bringup/esibot_bringup.egg-info/PKG-INFO
+[0.698s] writing dependency_links to ../../build/esibot_bringup/esibot_bringup.egg-info/dependency_links.txt
+[0.698s] writing entry points to ../../build/esibot_bringup/esibot_bringup.egg-info/entry_points.txt
+[0.698s] writing requirements to ../../build/esibot_bringup/esibot_bringup.egg-info/requires.txt
+[0.698s] writing top-level names to ../../build/esibot_bringup/esibot_bringup.egg-info/top_level.txt
+[0.698s] writing manifest file '../../build/esibot_bringup/esibot_bringup.egg-info/SOURCES.txt'
+[0.699s] reading manifest file '../../build/esibot_bringup/esibot_bringup.egg-info/SOURCES.txt'
+[0.700s] writing manifest file '../../build/esibot_bringup/esibot_bringup.egg-info/SOURCES.txt'
+[0.700s] running build
+[0.700s] running build_py
+[0.700s] creating /home/idris/esibot_ws/build/esibot_bringup/build
+[0.700s] creating /home/idris/esibot_ws/build/esibot_bringup/build/lib
+[0.700s] creating /home/idris/esibot_ws/build/esibot_bringup/build/lib/esibot_bringup
+[0.700s] copying esibot_bringup/__init__.py -> /home/idris/esibot_ws/build/esibot_bringup/build/lib/esibot_bringup
+[0.701s] copying esibot_bringup/esibot_driver.py -> /home/idris/esibot_ws/build/esibot_bringup/build/lib/esibot_bringup
+[0.701s] running install
+[0.701s] running install_lib
+[0.701s] creating /home/idris/esibot_ws/install/esibot_bringup/lib/python3.10/site-packages/esibot_bringup
+[0.702s] copying /home/idris/esibot_ws/build/esibot_bringup/build/lib/esibot_bringup/__init__.py -> /home/idris/esibot_ws/install/esibot_bringup/lib/python3.10/site-packages/esibot_bringup
+[0.702s] copying /home/idris/esibot_ws/build/esibot_bringup/build/lib/esibot_bringup/esibot_driver.py -> /home/idris/esibot_ws/install/esibot_bringup/lib/python3.10/site-packages/esibot_bringup
+[0.702s] byte-compiling /home/idris/esibot_ws/install/esibot_bringup/lib/python3.10/site-packages/esibot_bringup/__init__.py to __init__.cpython-310.pyc
+[0.702s] byte-compiling /home/idris/esibot_ws/install/esibot_bringup/lib/python3.10/site-packages/esibot_bringup/esibot_driver.py to esibot_driver.cpython-310.pyc
+[0.703s] running install_data
+[0.703s] creating /home/idris/esibot_ws/install/esibot_bringup/share/ament_index
+[0.703s] creating /home/idris/esibot_ws/install/esibot_bringup/share/ament_index/resource_index
+[0.703s] creating /home/idris/esibot_ws/install/esibot_bringup/share/ament_index/resource_index/packages
+[0.703s] copying resource/esibot_bringup -> /home/idris/esibot_ws/install/esibot_bringup/share/ament_index/resource_index/packages
+[0.703s] copying package.xml -> /home/idris/esibot_ws/install/esibot_bringup/share/esibot_bringup
+[0.703s] creating /home/idris/esibot_ws/install/esibot_bringup/share/esibot_bringup/launch
+[0.703s] copying launch/esibot_driver.launch.py -> /home/idris/esibot_ws/install/esibot_bringup/share/esibot_bringup/launch
+[0.703s] running install_egg_info
+[0.705s] Copying ../../build/esibot_bringup/esibot_bringup.egg-info to /home/idris/esibot_ws/install/esibot_bringup/lib/python3.10/site-packages/esibot_bringup-0.0.1-py3.10.egg-info
+[0.705s] running install_scripts
+[0.720s] Installing esibot_driver script to /home/idris/esibot_ws/install/esibot_bringup/lib/esibot_bringup
+[0.720s] writing list of installed files to '/home/idris/esibot_ws/build/esibot_bringup/install.log'
+[0.753s] Invoked command in '/home/idris/esibot_ws/src/esibot_bringup' returned '0': PYTHONPATH=/home/idris/esibot_ws/build/esibot_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/idris/esibot_ws/install/esibot_bringup/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/esibot_bringup build --build-base /home/idris/esibot_ws/build/esibot_bringup/build install --record /home/idris/esibot_ws/build/esibot_bringup/install.log --single-version-externally-managed install_data
