@@ -1,0 +1,3 @@
+[console_scripts]
+radar_node = esibot_sensors.radar_node:main
+

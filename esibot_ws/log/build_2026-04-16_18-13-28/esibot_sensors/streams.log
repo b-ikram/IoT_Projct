@@ -1,0 +1,42 @@
+[2.755s] Invoking command in '/home/idrisg/iot-project/IoT_Projct/esibot_ws/src/esibot_sensors': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_sensors/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/esibot_sensors build --build-base /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_sensors/build install --record /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_sensors/install.log --single-version-externally-managed install_data
+[3.329s] running egg_info
+[3.331s] creating ../../build/esibot_sensors/esibot_sensors.egg-info
+[3.331s] writing ../../build/esibot_sensors/esibot_sensors.egg-info/PKG-INFO
+[3.331s] writing dependency_links to ../../build/esibot_sensors/esibot_sensors.egg-info/dependency_links.txt
+[3.331s] writing entry points to ../../build/esibot_sensors/esibot_sensors.egg-info/entry_points.txt
+[3.332s] writing requirements to ../../build/esibot_sensors/esibot_sensors.egg-info/requires.txt
+[3.332s] writing top-level names to ../../build/esibot_sensors/esibot_sensors.egg-info/top_level.txt
+[3.333s] writing manifest file '../../build/esibot_sensors/esibot_sensors.egg-info/SOURCES.txt'
+[3.338s] reading manifest file '../../build/esibot_sensors/esibot_sensors.egg-info/SOURCES.txt'
+[3.341s] writing manifest file '../../build/esibot_sensors/esibot_sensors.egg-info/SOURCES.txt'
+[3.341s] running build
+[3.341s] running build_py
+[3.348s] creating /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_sensors/build
+[3.349s] creating /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_sensors/build/lib
+[3.349s] creating /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_sensors/build/lib/esibot_sensors
+[3.349s] copying esibot_sensors/__init__.py -> /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_sensors/build/lib/esibot_sensors
+[3.349s] copying esibot_sensors/radar_node.py -> /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_sensors/build/lib/esibot_sensors
+[3.349s] running install
+[3.350s] running install_lib
+[3.355s] creating /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/lib/python3.10/site-packages/esibot_sensors
+[3.355s] copying /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_sensors/build/lib/esibot_sensors/__init__.py -> /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/lib/python3.10/site-packages/esibot_sensors
+[3.355s] copying /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_sensors/build/lib/esibot_sensors/radar_node.py -> /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/lib/python3.10/site-packages/esibot_sensors
+[3.355s] byte-compiling /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/lib/python3.10/site-packages/esibot_sensors/__init__.py to __init__.cpython-310.pyc
+[3.355s] byte-compiling /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/lib/python3.10/site-packages/esibot_sensors/radar_node.py to radar_node.cpython-310.pyc
+[3.360s] running install_data
+[3.361s] creating /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/share/ament_index
+[3.361s] creating /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/share/ament_index/resource_index
+[3.361s] creating /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/share/ament_index/resource_index/packages
+[3.361s] copying resource/esibot_sensors -> /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/share/ament_index/resource_index/packages
+[3.361s] copying package.xml -> /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/share/esibot_sensors
+[3.364s] creating /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/share/esibot_sensors/launch
+[3.364s] copying launch/radar.launch.py -> /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/share/esibot_sensors/launch
+[3.364s] creating /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/share/esibot_sensors/config
+[3.364s] copying config/radar_params.yaml -> /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/share/esibot_sensors/config
+[3.364s] copying config/radar.rviz -> /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/share/esibot_sensors/config
+[3.364s] running install_egg_info
+[3.368s] Copying ../../build/esibot_sensors/esibot_sensors.egg-info to /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/lib/python3.10/site-packages/esibot_sensors-0.0.1-py3.10.egg-info
+[3.370s] running install_scripts
+[3.420s] Installing radar_node script to /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/lib/esibot_sensors
+[3.421s] writing list of installed files to '/home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_sensors/install.log'
+[3.472s] Invoked command in '/home/idrisg/iot-project/IoT_Projct/esibot_ws/src/esibot_sensors' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_sensors/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_sensors/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/esibot_sensors build --build-base /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_sensors/build install --record /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_sensors/install.log --single-version-externally-managed install_data
