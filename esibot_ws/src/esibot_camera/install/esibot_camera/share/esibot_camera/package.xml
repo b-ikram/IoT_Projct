@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>esibot_camera</name>
+  <version>0.1.0</version>
+  <description>ROS2 camera bridge for EsiBot ESP32-CAM MJPEG stream.</description>
+
+  <maintainer email="team@esibot.local">EsiBot Team</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <depend>rclpy</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+
+  <exec_depend>python3-opencv</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

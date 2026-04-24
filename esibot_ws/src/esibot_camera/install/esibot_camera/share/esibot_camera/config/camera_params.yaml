@@ -1,0 +1,11 @@
+esircam_node:
+  ros__parameters:
+    stream_url: "http://127.0.0.1:8000/stream"
+    frame_id: "camera_link"
+
+    image_topic: "/camera/image_raw"
+    compressed_topic: "/camera/compressed"
+
+    reconnect_delay_sec: 2.0
+    read_chunk_size: 1024
+    log_every_n_frames: 30
