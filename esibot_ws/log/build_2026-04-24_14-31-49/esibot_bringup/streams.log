@@ -1,0 +1,20 @@
+[1.315s] Invoking command in '/home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_bringup': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_bringup/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_bringup/build --no-deps symlink_data --force
+[1.520s] running develop
+[1.640s] running egg_info
+[1.640s] writing esibot_bringup.egg-info/PKG-INFO
+[1.641s] writing dependency_links to esibot_bringup.egg-info/dependency_links.txt
+[1.641s] writing entry points to esibot_bringup.egg-info/entry_points.txt
+[1.642s] writing requirements to esibot_bringup.egg-info/requires.txt
+[1.642s] writing top-level names to esibot_bringup.egg-info/top_level.txt
+[1.645s] reading manifest file 'esibot_bringup.egg-info/SOURCES.txt'
+[1.647s] writing manifest file 'esibot_bringup.egg-info/SOURCES.txt'
+[1.650s] running build_ext
+[1.650s] Creating /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_bringup/lib/python3.10/site-packages/esibot-bringup.egg-link (link to .)
+[1.651s] Installing esibot_driver script to /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_bringup/lib/esibot_bringup
+[1.651s] 
+[1.651s] Installed /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_bringup
+[1.651s] running symlink_data
+[1.651s] symbolically linking /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_bringup/resource/esibot_bringup -> /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_bringup/share/ament_index/resource_index/packages
+[1.651s] symbolically linking /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_bringup/package.xml -> /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_bringup/share/esibot_bringup
+[1.652s] symbolically linking /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_bringup/launch/esibot_driver.launch.py -> /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_bringup/share/esibot_bringup/launch
+[1.677s] Invoked command in '/home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_bringup' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_bringup/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_bringup/build --no-deps symlink_data --force

@@ -4,3 +4,6 @@ source;share/esibot_sensors/hook/pythonpath.sh
 source;share/esibot_sensors/hook/ament_prefix_path.ps1
 source;share/esibot_sensors/hook/ament_prefix_path.dsv
 source;share/esibot_sensors/hook/ament_prefix_path.sh
+source;../../build/esibot_sensors/share/esibot_sensors/hook/pythonpath_develop.ps1
+source;../../build/esibot_sensors/share/esibot_sensors/hook/pythonpath_develop.dsv
+source;../../build/esibot_sensors/share/esibot_sensors/hook/pythonpath_develop.sh

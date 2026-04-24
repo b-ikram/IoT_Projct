@@ -3,8 +3,8 @@ Name: esibot-sensors
 Version: 0.0.1
 Summary: Radar sensor node package for ESIBOT
 Home-page: UNKNOWN
-Maintainer: CHATTAH SALSABILA
-Maintainer-email: ms_chattah@esi.dz
+Maintainer: CHATTAH SALSABILA, BADAOUI IKRAM
+Maintainer-email: ms_chattah@esi.dz, mi_badaoui@esi.dz
 License: Apache-2.0
 Platform: UNKNOWN
 

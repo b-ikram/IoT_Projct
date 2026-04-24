@@ -18,7 +18,7 @@ def generate_launch_description():
     rviz_config_file = os.path.join(
         package_share,
         'config',
-        'radar.rviz'
+        'config.rviz'
     )
 
     return LaunchDescription([

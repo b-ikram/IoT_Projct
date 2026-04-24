@@ -14,7 +14,7 @@ radar_node:
     sensor_offsets_deg: [0.0, 90.0, 180.0, 270.0]
     sensor_fov_deg: 90.0
     mark_uncovered_as_inf: true
-    use_mock_data: true
+    use_mock_data: false
     servo_gpio_pin: 18
     servo_min_angle_deg: 0.0
     servo_max_angle_deg: 180.0

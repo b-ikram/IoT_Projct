@@ -1,7 +1,7 @@
 Metadata-Version: 2.1
 Name: esibot-bringup
 Version: 0.0.1
-Summary: ESIBOT driver node for Gazebo testing
+Summary: ESIBOT real hardware driver and odometry bridge
 Home-page: UNKNOWN
 Maintainer: CHATTAH SALSABILA
 Maintainer-email: ms_chattah@esi.dz

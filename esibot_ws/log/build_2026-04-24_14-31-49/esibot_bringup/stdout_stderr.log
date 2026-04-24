@@ -1,0 +1,18 @@
+running develop
+running egg_info
+writing esibot_bringup.egg-info/PKG-INFO
+writing dependency_links to esibot_bringup.egg-info/dependency_links.txt
+writing entry points to esibot_bringup.egg-info/entry_points.txt
+writing requirements to esibot_bringup.egg-info/requires.txt
+writing top-level names to esibot_bringup.egg-info/top_level.txt
+reading manifest file 'esibot_bringup.egg-info/SOURCES.txt'
+writing manifest file 'esibot_bringup.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_bringup/lib/python3.10/site-packages/esibot-bringup.egg-link (link to .)
+Installing esibot_driver script to /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_bringup/lib/esibot_bringup
+
+Installed /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_bringup
+running symlink_data
+symbolically linking /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_bringup/resource/esibot_bringup -> /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_bringup/share/ament_index/resource_index/packages
+symbolically linking /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_bringup/package.xml -> /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_bringup/share/esibot_bringup
+symbolically linking /home/idrisg/iot-project/IoT_Projct/esibot_ws/build/esibot_bringup/launch/esibot_driver.launch.py -> /home/idrisg/iot-project/IoT_Projct/esibot_ws/install/esibot_bringup/share/esibot_bringup/launch

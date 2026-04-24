@@ -10,5 +10,14 @@ setup.py
 ../../build/esibot_bringup/esibot_bringup.egg-info/zip-safe
 esibot_bringup/__init__.py
 esibot_bringup/esibot_driver.py
+esibot_bringup/odometry_utils.py
+esibot_bringup/serial_interface.py
+esibot_bringup.egg-info/PKG-INFO
+esibot_bringup.egg-info/SOURCES.txt
+esibot_bringup.egg-info/dependency_links.txt
+esibot_bringup.egg-info/entry_points.txt
+esibot_bringup.egg-info/requires.txt
+esibot_bringup.egg-info/top_level.txt
+esibot_bringup.egg-info/zip-safe
 launch/esibot_driver.launch.py
 resource/esibot_bringup
