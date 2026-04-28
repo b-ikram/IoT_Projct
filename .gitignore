@@ -1,0 +1,30 @@
+# ROS2 / colcon build outputs
+/esibot_ws/build/
+/esibot_ws/install/
+/esibot_ws/log/
+/esibot_ws/src/*/build/
+/esibot_ws/src/*/install/
+/esibot_ws/src/*/log/
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Python packaging artifacts
+*.egg-info/
+.eggs/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+
+# IDE/editor metadata
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

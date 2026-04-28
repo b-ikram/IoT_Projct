@@ -1,3 +1,0 @@
-[console_scripts]
-esibot_driver = esibot_bringup.esibot_driver:main
-
