@@ -1,6 +1,6 @@
 import { Settings } from "lucide-react";
 
-export default function SettingsHeader({ hasChanges, lastSaved }) {
+export default function SettingsHeader() {
   return (
     <header className="flex items-start justify-between">
       <div>
@@ -15,20 +15,6 @@ export default function SettingsHeader({ hasChanges, lastSaved }) {
           Configure robot system and network
         </p>
       </div>
-
-      {hasChanges ? (
-        <div className="flex items-center gap-[5px] text-[11px] mt-[4px]">
-          <span className="w-[7px] h-[7px] rounded-full bg-[#ffa927] shadow-[0_0_8px_rgba(255,169,39,0.9)]" />
-          <span className="text-[#ffa927] font-semibold">
-            Unsaved changes
-          </span>
-        </div>
-      ) : (
-        <div className="flex items-center gap-[5px] text-[11px] text-[#888] mt-[4px]">
-          <span className="w-[7px] h-[7px] rounded-full bg-[#50e38b] shadow-[0_0_8px_rgba(80,227,139,0.8)]" />
-          <span>Last saved: {lastSaved}</span>
-        </div>
-      )}
     </header>
   );
 }

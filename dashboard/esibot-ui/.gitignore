@@ -12,9 +12,8 @@ dist
 dist-ssr
 *.local
 
-
-
 node_modules/
+**/node_modules/
 dist/
 .env
 

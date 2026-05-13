@@ -1,22 +1,35 @@
-import { Wifi, Eye } from "lucide-react";
-import { useState } from "react";
+import { Wifi } from "lucide-react";
+import { useState, useEffect } from "react";
+import { connectRaspberry, sendCommand, onMessage, offMessage } from "../../services/raspberrySocket";
 
-export default function NetworkSettingsCard({ onChange }) {
-  const [show, setShow] = useState(false);
-  const [staticIP, setStaticIP] = useState(true);
+export default function NetworkSettingsCard() {
+  const [ssid, setSsid] = useState("--");
+  const [ip, setIp] = useState("--");
+  const [rosbridgePort, setRosbridgePort] = useState("9090");
+  const [websocketPort, setWebsocketPort] = useState("9091");
+  const [testStatus, setTestStatus] = useState(null);
 
-  const [ssid, setSsid] = useState("EsiBot_Network_5G");
-  const [password, setPassword] = useState("password123");
-  const [rosUri, setRosUri] = useState("http://192.168.1.100:11311");
-  const [websocketPort, setWebsocketPort] = useState("9090");
+  useEffect(() => {
+    connectRaspberry();
 
-  const markChanged = () => {
-    onChange?.();
-  };
+    const handler = (data) => {
+      setSsid(data.ssid);
+      setIp(data.ip);
+      setRosbridgePort(data.rosbridge_port);
+      setWebsocketPort(data.websocket_port);
+    };
 
-  const handleStaticIP = () => {
-    setStaticIP((prev) => !prev);
-    markChanged();
+    onMessage("networkinfo", handler);
+
+    sendCommand("networkinfo");
+
+    return () => offMessage("networkinfo", handler);
+  }, []);
+
+  const handleTest = () => {
+    setTestStatus("testing");
+    sendCommand("status");
+    setTimeout(() => setTestStatus("ok"), 1000);
   };
 
   return (
@@ -31,7 +44,6 @@ export default function NetworkSettingsCard({ onChange }) {
           <h3 className="text-[17px] font-bold text-white mb-[0px] leading-tight">
             Network Settings
           </h3>
-
           <p className="text-[12px] text-[#7a7a7a] mt-[0px]">
             WiFi & Connectivity
           </p>
@@ -40,151 +52,71 @@ export default function NetworkSettingsCard({ onChange }) {
 
       {/* FIELDS */}
       <div className="flex flex-col gap-5">
-        <Field
-          label="WIFI SSID"
-          value={ssid}
-          onChange={(value) => {
-            setSsid(value);
-            markChanged();
-          }}
-        />
-{/* PASSWORD */}
-<div>
-  <label className="label">Password</label>
-
-  <div className="relative">
-    <input
-      type={show ? "text" : "password"}
-      value={password}
-      onChange={(e) => {
-        setPassword(e.target.value);
-        markChanged();
-      }}
-      className="
-        w-full
-        bg-[#141414]
-        text-[#e4e4e4]
-        px-[14px] py-[10px]
-        pr-[52px]
-        rounded-[10px]
-        border border-[#2a2a2a]
-        focus:outline-none
-        focus:border-[#0a7cff]
-        hover:border-[#3a3a3a]
-        transition
-      "
-    />
-
-    <button
-      type="button"
-      onClick={() => setShow(!show)}
-      className="
-        absolute right-[8px] top-1/2 -translate-y-1/2
-        h-[28px] w-[28px]
-        flex items-center justify-center
-        rounded-[8px]
-        text-[#8a8a8a]
-        bg-[#1a1a1a]
-        border border-[#2a2a2a]
-        hover:bg-[#222]
-        hover:text-white
-        active:scale-[0.92]
-        transition-all duration-150
-      "
-    >
-      <Eye size={14} />
-    </button>
-  </div>
-</div>
-
-        <Field
-          label="ROS2 Master URI"
-          value={rosUri}
-          onChange={(value) => {
-            setRosUri(value);
-            markChanged();
-          }}
-        />
+        <ReadField label="WIFI SSID" value={ssid} />
+        <ReadField label="Raspberry IP" value={ip} />
+        <ReadField label="ROS2 Rosbridge Port" value={rosbridgePort} />
 
         {/* PORT + TEST */}
         <div className="grid grid-cols-[1fr_140px] gap-4 items-end">
-          <Field
-            label="WebSocket Port"
-            value={websocketPort}
-            noMargin
-            onChange={(value) => {
-              setWebsocketPort(value);
-              markChanged();
-            }}
-          />
+          <ReadField label="WebSocket Port" value={websocketPort} noMargin />
 
           <div>
             <label className="label">Test Connection</label>
-
-           <button
-  type="button"
-  className="
-    
-    text-[11px]
-
-    btn-test
-
-    transition-all duration-150
-    active:scale-[0.95]
-    active:translate-y-[1px]
-  "
->
-  RUN TEST
-</button>
+            <button
+              type="button"
+              onClick={handleTest}
+              className={`
+                btn-test text-[11px]
+                transition-all duration-150
+                active:scale-[0.95]
+                active:translate-y-[1px]
+                ${testStatus === "ok" ? "border-[#50e38b] text-[#50e38b]" : ""}
+                ${testStatus === "testing" ? "opacity-60" : ""}
+              `}
+            >
+              {testStatus === "testing" ? "TESTING..." : testStatus === "ok" ? "✓ OK" : "RUN TEST"}
+            </button>
           </div>
         </div>
 
         <div className="mt-5 border-t border-[#2a2a2a] pt-4"></div>
 
         {/* STATIC IP */}
-        <div className="flex items-center justify-between bg-[#141414] border border-[#2a2a2a] rounded-[10px] px-[12px] ">
-  
-           <div className="flex flex-col gap-[2px]">
-            <p className="text-[12px] font-semibold">Static IP</p>
+        <div className="flex items-center justify-between bg-[#141414] border border-[#2a2a2a] rounded-[10px] px-[12px] py-[10px]">
+          <div className="flex flex-col gap-[2px]">
+            <p className="text-[12px] font-semibold">Raspberry IP</p>
             <p className="text-[10px] text-[#6e6e6e]">
-              Use manual address configuration
+              {ip !== "--" ? ip : "Fetching..."}
             </p>
           </div>
-
-          <button
-            type="button"
-            onClick={handleStaticIP}
-            className={`switch ${staticIP ? "active" : ""}`}
-          />
+          <span className={`text-[10px] font-bold px-[8px] py-[4px] rounded-full ${
+            ip !== "--"
+              ? "bg-[#1f4d2e] text-[#50e38b] border border-[#2f8f5b]"
+              : "bg-[#3a2a10] text-[#ffa927] border border-[#7a5a20]"
+          }`}>
+            {ip !== "--" ? "● ONLINE" : "● WAITING"}
+          </span>
         </div>
       </div>
     </section>
   );
 }
-function Field({ label, value, onChange, noMargin }) {
+
+function ReadField({ label, value, noMargin }) {
   return (
     <div className={noMargin ? "" : "mb-[2px]"}>
       <label className="label">{label}</label>
-
-      <input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="
-          w-full
-          bg-[#141414]
-          text-[#e4e4e4]
-
-          px-[14px] py-[10px]
-          rounded-[10px]
-
-          border border-[#2a2a2a]
-
-          focus:outline-none
-          focus:border-[#0a7cff]
-
-          transition
-        "
-      />
+      <div className="
+        w-full
+        bg-[#141414]
+        text-[#e4e4e4]
+        px-[14px] py-[10px]
+        rounded-[10px]
+        border border-[#2a2a2a]
+        text-[13px]
+      ">
+        {value}
+      </div>
     </div>
   );
 }
