@@ -1,0 +1,21 @@
+[3.824s] Invoking command in '/home/user/esibot_ws/src/esibot_bringup': PYTHONPATH=/home/user/esibot_ws/build/esibot_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/user/esibot_ws/install/esibot_bringup/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/esibot_bringup build --build-base /home/user/esibot_ws/build/esibot_bringup/build install --record /home/user/esibot_ws/build/esibot_bringup/install.log --single-version-externally-managed install_data
+[5.416s] running egg_info
+[5.420s] writing ../../build/esibot_bringup/esibot_bringup.egg-info/PKG-INFO
+[5.422s] writing dependency_links to ../../build/esibot_bringup/esibot_bringup.egg-info/dependency_links.txt
+[5.423s] writing entry points to ../../build/esibot_bringup/esibot_bringup.egg-info/entry_points.txt
+[5.425s] writing requirements to ../../build/esibot_bringup/esibot_bringup.egg-info/requires.txt
+[5.426s] writing top-level names to ../../build/esibot_bringup/esibot_bringup.egg-info/top_level.txt
+[5.434s] reading manifest file '../../build/esibot_bringup/esibot_bringup.egg-info/SOURCES.txt'
+[5.438s] writing manifest file '../../build/esibot_bringup/esibot_bringup.egg-info/SOURCES.txt'
+[5.439s] running build
+[5.440s] running build_py
+[5.441s] running install
+[5.442s] running install_lib
+[5.450s] running install_data
+[5.450s] running install_egg_info
+[5.467s] removing '/home/user/esibot_ws/install/esibot_bringup/lib/python3.10/site-packages/esibot_bringup-0.0.1-py3.10.egg-info' (and everything under it)
+[5.470s] Copying ../../build/esibot_bringup/esibot_bringup.egg-info to /home/user/esibot_ws/install/esibot_bringup/lib/python3.10/site-packages/esibot_bringup-0.0.1-py3.10.egg-info
+[5.478s] running install_scripts
+[5.578s] Installing esibot_driver script to /home/user/esibot_ws/install/esibot_bringup/lib/esibot_bringup
+[5.580s] writing list of installed files to '/home/user/esibot_ws/build/esibot_bringup/install.log'
+[5.748s] Invoked command in '/home/user/esibot_ws/src/esibot_bringup' returned '0': PYTHONPATH=/home/user/esibot_ws/build/esibot_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/user/esibot_ws/install/esibot_bringup/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/esibot_bringup build --build-base /home/user/esibot_ws/build/esibot_bringup/build install --record /home/user/esibot_ws/build/esibot_bringup/install.log --single-version-externally-managed install_data

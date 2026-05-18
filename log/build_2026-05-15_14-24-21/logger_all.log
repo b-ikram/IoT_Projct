@@ -1,0 +1,276 @@
+[0.523s] [34mcolcon[0m [1;30mDEBUG[0m [32mCommand line arguments: ['/usr/bin/colcon', 'build', '--packages-select', 'esibot_sensor'][0m
+[0.523s] [34mcolcon[0m [1;30mDEBUG[0m [32mParsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=4, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=['esibot_sensor'], packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, mixin_files=None, mixin=None, verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0xffffa4a00e50>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0xffffa4b19db0>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0xffffa4b19db0>>, mixin_verb=('build',))[0m
+[1.426s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(colcon_meta) check parameters
+[1.427s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(recursive) check parameters
+[1.427s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(ignore) check parameters
+[1.427s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(path) check parameters
+[1.427s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(colcon_meta) discover
+[1.427s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(recursive) discover
+[1.427s] [34mcolcon.colcon_core.package_discovery[0m [1;30mINFO[0m Crawling recursively for packages in '/home/user/esibot_ws'
+[1.428s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['ignore', 'ignore_ament_install']
+[1.428s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'ignore'
+[1.428s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'ignore_ament_install'
+[1.429s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['colcon_pkg']
+[1.429s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'colcon_pkg'
+[1.429s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['colcon_meta']
+[1.429s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'colcon_meta'
+[1.429s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['ros']
+[1.429s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'ros'
+[1.478s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['cmake', 'python']
+[1.478s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'cmake'
+[1.479s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'python'
+[1.479s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['python_setup_py']
+[1.479s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'python_setup_py'
+[1.479s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(build) by extensions ['ignore', 'ignore_ament_install']
+[1.480s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(build) by extension 'ignore'
+[1.480s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(build) ignored
+[1.481s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(install) by extensions ['ignore', 'ignore_ament_install']
+[1.481s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(install) by extension 'ignore'
+[1.481s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(install) ignored
+[1.482s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(log) by extensions ['ignore', 'ignore_ament_install']
+[1.482s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(log) by extension 'ignore'
+[1.483s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(log) ignored
+[1.483s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(scripts) by extensions ['ignore', 'ignore_ament_install']
+[1.483s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(scripts) by extension 'ignore'
+[1.483s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(scripts) by extension 'ignore_ament_install'
+[1.484s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(scripts) by extensions ['colcon_pkg']
+[1.484s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(scripts) by extension 'colcon_pkg'
+[1.484s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(scripts) by extensions ['colcon_meta']
+[1.484s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(scripts) by extension 'colcon_meta'
+[1.484s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(scripts) by extensions ['ros']
+[1.484s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(scripts) by extension 'ros'
+[1.485s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(scripts) by extensions ['cmake', 'python']
+[1.485s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(scripts) by extension 'cmake'
+[1.485s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(scripts) by extension 'python'
+[1.485s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(scripts) by extensions ['python_setup_py']
+[1.485s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(scripts) by extension 'python_setup_py'
+[1.486s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['ignore', 'ignore_ament_install']
+[1.486s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'ignore'
+[1.486s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'ignore_ament_install'
+[1.486s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['colcon_pkg']
+[1.487s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'colcon_pkg'
+[1.487s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['colcon_meta']
+[1.487s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'colcon_meta'
+[1.487s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['ros']
+[1.487s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'ros'
+[1.487s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['cmake', 'python']
+[1.488s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'cmake'
+[1.488s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'python'
+[1.488s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['python_setup_py']
+[1.488s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'python_setup_py'
+[1.489s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_bringup) by extensions ['ignore', 'ignore_ament_install']
+[1.489s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_bringup) by extension 'ignore'
+[1.489s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_bringup) by extension 'ignore_ament_install'
+[1.489s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_bringup) by extensions ['colcon_pkg']
+[1.489s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_bringup) by extension 'colcon_pkg'
+[1.489s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_bringup) by extensions ['colcon_meta']
+[1.490s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_bringup) by extension 'colcon_meta'
+[1.490s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_bringup) by extensions ['ros']
+[1.490s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_bringup) by extension 'ros'
+[1.538s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/esibot_bringup' with type 'ros.ament_python' and name 'esibot_bringup'[0m
+[1.539s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_camera) by extensions ['ignore', 'ignore_ament_install']
+[1.539s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_camera) by extension 'ignore'
+[1.539s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_camera) by extension 'ignore_ament_install'
+[1.539s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_camera) by extensions ['colcon_pkg']
+[1.540s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_camera) by extension 'colcon_pkg'
+[1.540s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_camera) by extensions ['colcon_meta']
+[1.540s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_camera) by extension 'colcon_meta'
+[1.540s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_camera) by extensions ['ros']
+[1.540s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_camera) by extension 'ros'
+[1.543s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/esibot_camera' with type 'ros.ament_python' and name 'esibot_camera'[0m
+[1.544s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description) by extensions ['ignore', 'ignore_ament_install']
+[1.545s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description) by extension 'ignore'
+[1.545s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description) by extension 'ignore_ament_install'
+[1.545s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description) by extensions ['colcon_pkg']
+[1.545s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description) by extension 'colcon_pkg'
+[1.545s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description) by extensions ['colcon_meta']
+[1.546s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description) by extension 'colcon_meta'
+[1.546s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description) by extensions ['ros']
+[1.546s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description) by extension 'ros'
+[1.546s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description) by extensions ['cmake', 'python']
+[1.547s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description) by extension 'cmake'
+[1.547s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description) by extension 'python'
+[1.547s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description) by extensions ['python_setup_py']
+[1.547s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description) by extension 'python_setup_py'
+[1.548s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/launch) by extensions ['ignore', 'ignore_ament_install']
+[1.548s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/launch) by extension 'ignore'
+[1.548s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/launch) by extension 'ignore_ament_install'
+[1.549s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/launch) by extensions ['colcon_pkg']
+[1.549s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/launch) by extension 'colcon_pkg'
+[1.549s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/launch) by extensions ['colcon_meta']
+[1.549s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/launch) by extension 'colcon_meta'
+[1.549s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/launch) by extensions ['ros']
+[1.549s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/launch) by extension 'ros'
+[1.550s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/launch) by extensions ['cmake', 'python']
+[1.550s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/launch) by extension 'cmake'
+[1.550s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/launch) by extension 'python'
+[1.550s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/launch) by extensions ['python_setup_py']
+[1.550s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/launch) by extension 'python_setup_py'
+[1.551s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/urdf) by extensions ['ignore', 'ignore_ament_install']
+[1.551s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/urdf) by extension 'ignore'
+[1.551s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/urdf) by extension 'ignore_ament_install'
+[1.552s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/urdf) by extensions ['colcon_pkg']
+[1.552s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/urdf) by extension 'colcon_pkg'
+[1.552s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/urdf) by extensions ['colcon_meta']
+[1.552s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/urdf) by extension 'colcon_meta'
+[1.552s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/urdf) by extensions ['ros']
+[1.552s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/urdf) by extension 'ros'
+[1.553s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/urdf) by extensions ['cmake', 'python']
+[1.553s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/urdf) by extension 'cmake'
+[1.553s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/urdf) by extension 'python'
+[1.553s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/urdf) by extensions ['python_setup_py']
+[1.553s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_description/urdf) by extension 'python_setup_py'
+[1.554s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_sensor) by extensions ['ignore', 'ignore_ament_install']
+[1.554s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_sensor) by extension 'ignore'
+[1.554s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_sensor) by extension 'ignore_ament_install'
+[1.555s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_sensor) by extensions ['colcon_pkg']
+[1.555s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_sensor) by extension 'colcon_pkg'
+[1.555s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_sensor) by extensions ['colcon_meta']
+[1.555s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_sensor) by extension 'colcon_meta'
+[1.555s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_sensor) by extensions ['ros']
+[1.555s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_sensor) by extension 'ros'
+[1.558s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/esibot_sensor' with type 'ros.ament_python' and name 'esibot_sensor'[0m
+[1.559s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui) by extensions ['ignore', 'ignore_ament_install']
+[1.559s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui) by extension 'ignore'
+[1.559s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui) by extension 'ignore_ament_install'
+[1.559s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui) by extensions ['colcon_pkg']
+[1.559s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui) by extension 'colcon_pkg'
+[1.560s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui) by extensions ['colcon_meta']
+[1.560s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui) by extension 'colcon_meta'
+[1.560s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui) by extensions ['ros']
+[1.560s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui) by extension 'ros'
+[1.560s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui) by extensions ['cmake', 'python']
+[1.561s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui) by extension 'cmake'
+[1.561s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui) by extension 'python'
+[1.561s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui) by extensions ['python_setup_py']
+[1.561s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui) by extension 'python_setup_py'
+[1.562s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui/esibot_ui) by extensions ['ignore', 'ignore_ament_install']
+[1.562s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui/esibot_ui) by extension 'ignore'
+[1.562s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui/esibot_ui) by extension 'ignore_ament_install'
+[1.562s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui/esibot_ui) by extensions ['colcon_pkg']
+[1.562s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui/esibot_ui) by extension 'colcon_pkg'
+[1.563s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui/esibot_ui) by extensions ['colcon_meta']
+[1.563s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui/esibot_ui) by extension 'colcon_meta'
+[1.563s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui/esibot_ui) by extensions ['ros']
+[1.563s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui/esibot_ui) by extension 'ros'
+[1.563s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui/esibot_ui) by extensions ['cmake', 'python']
+[1.564s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui/esibot_ui) by extension 'cmake'
+[1.564s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui/esibot_ui) by extension 'python'
+[1.564s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui/esibot_ui) by extensions ['python_setup_py']
+[1.564s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_ui/esibot_ui) by extension 'python_setup_py'
+[1.564s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision) by extensions ['ignore', 'ignore_ament_install']
+[1.565s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision) by extension 'ignore'
+[1.565s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision) by extension 'ignore_ament_install'
+[1.565s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision) by extensions ['colcon_pkg']
+[1.565s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision) by extension 'colcon_pkg'
+[1.565s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision) by extensions ['colcon_meta']
+[1.566s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision) by extension 'colcon_meta'
+[1.566s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision) by extensions ['ros']
+[1.566s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision) by extension 'ros'
+[1.566s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision) by extensions ['cmake', 'python']
+[1.566s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision) by extension 'cmake'
+[1.567s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision) by extension 'python'
+[1.567s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision) by extensions ['python_setup_py']
+[1.567s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision) by extension 'python_setup_py'
+[1.567s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/esibot_vision) by extensions ['ignore', 'ignore_ament_install']
+[1.568s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/esibot_vision) by extension 'ignore'
+[1.568s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/esibot_vision) by extension 'ignore_ament_install'
+[1.568s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/esibot_vision) by extensions ['colcon_pkg']
+[1.568s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/esibot_vision) by extension 'colcon_pkg'
+[1.568s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/esibot_vision) by extensions ['colcon_meta']
+[1.569s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/esibot_vision) by extension 'colcon_meta'
+[1.569s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/esibot_vision) by extensions ['ros']
+[1.569s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/esibot_vision) by extension 'ros'
+[1.569s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/esibot_vision) by extensions ['cmake', 'python']
+[1.569s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/esibot_vision) by extension 'cmake'
+[1.569s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/esibot_vision) by extension 'python'
+[1.570s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/esibot_vision) by extensions ['python_setup_py']
+[1.570s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/esibot_vision) by extension 'python_setup_py'
+[1.570s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/launch) by extensions ['ignore', 'ignore_ament_install']
+[1.571s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/launch) by extension 'ignore'
+[1.571s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/launch) by extension 'ignore_ament_install'
+[1.571s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/launch) by extensions ['colcon_pkg']
+[1.571s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/launch) by extension 'colcon_pkg'
+[1.571s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/launch) by extensions ['colcon_meta']
+[1.571s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/launch) by extension 'colcon_meta'
+[1.572s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/launch) by extensions ['ros']
+[1.572s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/launch) by extension 'ros'
+[1.572s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/launch) by extensions ['cmake', 'python']
+[1.572s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/launch) by extension 'cmake'
+[1.572s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/launch) by extension 'python'
+[1.572s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/launch) by extensions ['python_setup_py']
+[1.573s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/esibot_vision/launch) by extension 'python_setup_py'
+[1.573s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(recursive) using defaults
+[1.573s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(ignore) discover
+[1.573s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(ignore) using defaults
+[1.573s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(path) discover
+[1.573s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(path) using defaults
+[1.638s] [34mcolcon.colcon_core.package_selection[0m [1;30mINFO[0m Skipping not selected package 'esibot_bringup' in 'src/esibot_bringup'
+[1.638s] [34mcolcon.colcon_core.package_selection[0m [1;30mINFO[0m Skipping not selected package 'esibot_camera' in 'src/esibot_camera'
+[1.640s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(prefix_path) check parameters
+[1.640s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(prefix_path) discover
+[1.649s] [34mcolcon.colcon_installed_package_information.package_discovery[0m [1;30mDEBUG[0m [32mFound 3 installed packages in /home/user/esibot_ws/install[0m
+[1.659s] [34mcolcon.colcon_installed_package_information.package_discovery[0m [1;30mDEBUG[0m [32mFound 285 installed packages in /opt/ros/humble[0m
+[1.665s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(prefix_path) using defaults
+[1.838s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'esibot_sensor' build argument 'cmake_args' from command line to 'None'
+[1.838s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'esibot_sensor' build argument 'cmake_target' from command line to 'None'
+[1.838s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'esibot_sensor' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.838s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'esibot_sensor' build argument 'cmake_clean_cache' from command line to 'False'
+[1.838s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'esibot_sensor' build argument 'cmake_clean_first' from command line to 'False'
+[1.838s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'esibot_sensor' build argument 'cmake_force_configure' from command line to 'False'
+[1.839s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'esibot_sensor' build argument 'ament_cmake_args' from command line to 'None'
+[1.839s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'esibot_sensor' build argument 'catkin_cmake_args' from command line to 'None'
+[1.839s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'esibot_sensor' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.839s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'esibot_sensor' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/user/esibot_ws/build/esibot_sensor', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/user/esibot_ws/install/esibot_sensor', 'merge_install': False, 'path': '/home/user/esibot_ws/src/esibot_sensor', 'symlink_install': False, 'test_result_base': None}[0m
+[1.840s] [34mcolcon.colcon_core.executor[0m [1;30mINFO[0m Executing jobs using 'parallel' executor
+[1.843s] [34mcolcon.colcon_parallel_executor.executor.parallel[0m [1;30mDEBUG[0m [32mrun_until_complete[0m
+[1.844s] [34mcolcon.colcon_ros.task.ament_python.build[0m [1;30mINFO[0m Building ROS package in '/home/user/esibot_ws/src/esibot_sensor' with build type 'ament_python'
+[1.844s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('esibot_sensor', 'ament_prefix_path')
+[1.854s] [34mcolcon.colcon_core.plugin_system[0m [1;30mINFO[0m Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[1.855s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/hook/ament_prefix_path.ps1'
+[1.858s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/hook/ament_prefix_path.dsv'
+[1.860s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/hook/ament_prefix_path.sh'
+[1.864s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.864s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[3.189s] [34mcolcon.colcon_core.task.python.build[0m [1;30mINFO[0m Building Python package in '/home/user/esibot_ws/src/esibot_sensor'
+[3.190s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[3.190s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[4.974s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/user/esibot_ws/src/esibot_sensor': PYTHONPATH=/home/user/esibot_ws/build/esibot_sensor/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/user/esibot_ws/install/esibot_sensor/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/esibot_sensor build --build-base /home/user/esibot_ws/build/esibot_sensor/build install --record /home/user/esibot_ws/build/esibot_sensor/install.log --single-version-externally-managed install_data[0m
+[6.472s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/user/esibot_ws/src/esibot_sensor' returned '0': PYTHONPATH=/home/user/esibot_ws/build/esibot_sensor/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/user/esibot_ws/install/esibot_sensor/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/esibot_sensor build --build-base /home/user/esibot_ws/build/esibot_sensor/build install --record /home/user/esibot_ws/build/esibot_sensor/install.log --single-version-externally-managed install_data[0m
+[6.483s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/user/esibot_ws/install/esibot_sensor' for CMake module files
+[6.485s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/user/esibot_ws/install/esibot_sensor' for CMake config files
+[6.490s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/user/esibot_ws/install/esibot_sensor/lib'
+[6.491s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/user/esibot_ws/install/esibot_sensor/bin'
+[6.491s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/user/esibot_ws/install/esibot_sensor/lib/pkgconfig/esibot_sensor.pc'
+[6.492s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/user/esibot_ws/install/esibot_sensor/lib/python3.10/site-packages'
+[6.493s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('esibot_sensor', 'pythonpath')
+[6.494s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/hook/pythonpath.ps1'
+[6.496s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/hook/pythonpath.dsv'
+[6.498s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/hook/pythonpath.sh'
+[6.502s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/user/esibot_ws/install/esibot_sensor/bin'
+[6.502s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(esibot_sensor)
+[6.503s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/package.ps1'
+[6.507s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/package.dsv'
+[6.510s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/package.sh'
+[6.513s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/package.bash'
+[6.516s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/package.zsh'
+[6.519s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/user/esibot_ws/install/esibot_sensor/share/colcon-core/packages/esibot_sensor)
+[6.521s] [34mcolcon.colcon_parallel_executor.executor.parallel[0m [1;30mDEBUG[0m [32mclosing loop[0m
+[6.522s] [34mcolcon.colcon_parallel_executor.executor.parallel[0m [1;30mDEBUG[0m [32mloop closed[0m
+[6.522s] [34mcolcon.colcon_parallel_executor.executor.parallel[0m [1;30mDEBUG[0m [32mrun_until_complete finished with '0'[0m
+[6.523s] [34mcolcon.colcon_core.event_reactor[0m [1;30mDEBUG[0m [32mjoining thread[0m
+[6.547s] [34mcolcon.colcon_core.plugin_system[0m [1;30mINFO[0m Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[6.547s] [34mcolcon.colcon_core.plugin_system[0m [1;30mINFO[0m Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[6.547s] [34mcolcon.colcon_notification.desktop_notification[0m [1;30mINFO[0m Sending desktop notification using 'notify2'
+[31.575s] [34mcolcon.colcon_notification.desktop_notification.notify2[0m [1;30mDEBUG[0m [32mFailed to initialize notify2: org.freedesktop.DBus.Error.NoReply: Did not receive a reply. Possible causes include: the remote application did not send a reply, the message bus security policy blocked the reply, the reply timeout expired, or the network connection was broken.[0m
+[31.576s] [34mcolcon.colcon_core.event_reactor[0m [1;30mDEBUG[0m [32mjoined thread[0m
+[31.578s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix script '/home/user/esibot_ws/install/local_setup.ps1'
+[31.587s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix util module '/home/user/esibot_ws/install/_local_setup_util_ps1.py'
+[31.594s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix chain script '/home/user/esibot_ws/install/setup.ps1'
+[31.599s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix script '/home/user/esibot_ws/install/local_setup.sh'
+[31.602s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix util module '/home/user/esibot_ws/install/_local_setup_util_sh.py'
+[31.605s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix chain script '/home/user/esibot_ws/install/setup.sh'
+[31.610s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix script '/home/user/esibot_ws/install/local_setup.bash'
+[31.613s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix chain script '/home/user/esibot_ws/install/setup.bash'
+[31.618s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix script '/home/user/esibot_ws/install/local_setup.zsh'
+[31.620s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix chain script '/home/user/esibot_ws/install/setup.zsh'

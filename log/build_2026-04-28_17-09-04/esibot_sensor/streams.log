@@ -1,0 +1,44 @@
+[2.895s] Invoking command in '/home/user/esibot_ws/src/esibot_sensor': PYTHONPATH=/home/user/esibot_ws/build/esibot_sensor/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/user/esibot_ws/install/esibot_sensor/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/esibot_sensor build --build-base /home/user/esibot_ws/build/esibot_sensor/build install --record /home/user/esibot_ws/build/esibot_sensor/install.log --single-version-externally-managed install_data
+[4.028s] running egg_info
+[4.031s] creating ../../build/esibot_sensor/esibot_sensor.egg-info
+[4.032s] writing ../../build/esibot_sensor/esibot_sensor.egg-info/PKG-INFO
+[4.033s] writing dependency_links to ../../build/esibot_sensor/esibot_sensor.egg-info/dependency_links.txt
+[4.033s] writing entry points to ../../build/esibot_sensor/esibot_sensor.egg-info/entry_points.txt
+[4.034s] writing requirements to ../../build/esibot_sensor/esibot_sensor.egg-info/requires.txt
+[4.034s] writing top-level names to ../../build/esibot_sensor/esibot_sensor.egg-info/top_level.txt
+[4.035s] writing manifest file '../../build/esibot_sensor/esibot_sensor.egg-info/SOURCES.txt'
+[4.042s] reading manifest file '../../build/esibot_sensor/esibot_sensor.egg-info/SOURCES.txt'
+[4.046s] writing manifest file '../../build/esibot_sensor/esibot_sensor.egg-info/SOURCES.txt'
+[4.046s] running build
+[4.046s] running build_py
+[4.047s] creating /home/user/esibot_ws/build/esibot_sensor/build
+[4.048s] creating /home/user/esibot_ws/build/esibot_sensor/build/lib
+[4.048s] creating /home/user/esibot_ws/build/esibot_sensor/build/lib/esibot_sensor
+[4.048s] copying esibot_sensor/__init__.py -> /home/user/esibot_ws/build/esibot_sensor/build/lib/esibot_sensor
+[4.049s] copying esibot_sensor/radar_node.py -> /home/user/esibot_ws/build/esibot_sensor/build/lib/esibot_sensor
+[4.050s] running install
+[4.051s] running install_lib
+[4.054s] creating /home/user/esibot_ws/install/esibot_sensor/lib/python3.10/site-packages/esibot_sensor
+[4.055s] copying /home/user/esibot_ws/build/esibot_sensor/build/lib/esibot_sensor/__init__.py -> /home/user/esibot_ws/install/esibot_sensor/lib/python3.10/site-packages/esibot_sensor
+[4.055s] copying /home/user/esibot_ws/build/esibot_sensor/build/lib/esibot_sensor/radar_node.py -> /home/user/esibot_ws/install/esibot_sensor/lib/python3.10/site-packages/esibot_sensor
+[4.058s] byte-compiling /home/user/esibot_ws/install/esibot_sensor/lib/python3.10/site-packages/esibot_sensor/__init__.py to __init__.cpython-310.pyc
+[4.059s] byte-compiling /home/user/esibot_ws/install/esibot_sensor/lib/python3.10/site-packages/esibot_sensor/radar_node.py to radar_node.cpython-310.pyc
+[4.076s] running install_data
+[4.076s] creating /home/user/esibot_ws/install/esibot_sensor/share/ament_index
+[4.077s] creating /home/user/esibot_ws/install/esibot_sensor/share/ament_index/resource_index
+[4.077s] creating /home/user/esibot_ws/install/esibot_sensor/share/ament_index/resource_index/packages
+[4.077s] copying resource/esibot_sensor -> /home/user/esibot_ws/install/esibot_sensor/share/ament_index/resource_index/packages
+[4.078s] copying package.xml -> /home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor
+[4.078s] creating /home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/launch
+[4.079s] copying launch/radar.launch.py -> /home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/launch
+[4.081s] creating /home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/config
+[4.081s] copying config/radar.rviz -> /home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/config
+[4.082s] copying config/config.rviz -> /home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/config
+[4.084s] copying config/esibot_sensor.yaml -> /home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/config
+[4.085s] copying config/radar_params.yaml -> /home/user/esibot_ws/install/esibot_sensor/share/esibot_sensor/config
+[4.086s] running install_egg_info
+[4.094s] Copying ../../build/esibot_sensor/esibot_sensor.egg-info to /home/user/esibot_ws/install/esibot_sensor/lib/python3.10/site-packages/esibot_sensor-0.0.0-py3.10.egg-info
+[4.100s] running install_scripts
+[4.175s] Installing radar_node script to /home/user/esibot_ws/install/esibot_sensor/lib/esibot_sensor
+[4.176s] writing list of installed files to '/home/user/esibot_ws/build/esibot_sensor/install.log'
+[4.298s] Invoked command in '/home/user/esibot_ws/src/esibot_sensor' returned '0': PYTHONPATH=/home/user/esibot_ws/build/esibot_sensor/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/user/esibot_ws/install/esibot_sensor/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/esibot_sensor build --build-base /home/user/esibot_ws/build/esibot_sensor/build install --record /home/user/esibot_ws/build/esibot_sensor/install.log --single-version-externally-managed install_data

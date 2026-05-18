@@ -1,0 +1,15 @@
+package.xml
+setup.cfg
+setup.py
+build/esibot_camera/esibot_camera.egg-info/PKG-INFO
+build/esibot_camera/esibot_camera.egg-info/SOURCES.txt
+build/esibot_camera/esibot_camera.egg-info/dependency_links.txt
+build/esibot_camera/esibot_camera.egg-info/entry_points.txt
+build/esibot_camera/esibot_camera.egg-info/requires.txt
+build/esibot_camera/esibot_camera.egg-info/top_level.txt
+build/esibot_camera/esibot_camera.egg-info/zip-safe
+config/camera_params.yaml
+esibot_camera/__init__.py
+esibot_camera/esircam_node.py
+launch/esibot_camera.launch.py
+resource/esibot_camera

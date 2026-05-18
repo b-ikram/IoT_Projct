@@ -1,0 +1,3 @@
+[console_scripts]
+esircam_node = esibot_camera.esircam_node:main
+

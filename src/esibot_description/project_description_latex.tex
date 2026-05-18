@@ -1,0 +1,522 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+
+\geometry{margin=2.5cm}
+
+\definecolor{conceptblue}{RGB}{30, 100, 180}
+\definecolor{warningyellow}{RGB}{255, 193, 7}
+\definecolor{scenariogray}{RGB}{80, 80, 80}
+\definecolor{lightblue}{RGB}{220, 235, 250}
+\definecolor{lightyellow}{RGB}{255, 249, 220}
+\definecolor{lightgray}{RGB}{245, 245, 245}
+
+% Concept/Note box
+\newmdenv[
+  backgroundcolor=lightblue,
+  linecolor=conceptblue,
+  linewidth=1.5pt,
+  leftmargin=0pt,
+  rightmargin=0pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=8pt,
+  innerbottommargin=8pt,
+]{conceptbox}
+
+% Warning box
+\newmdenv[
+  backgroundcolor=lightyellow,
+  linecolor=warningyellow,
+  linewidth=1.5pt,
+  leftmargin=0pt,
+  rightmargin=0pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=8pt,
+  innerbottommargin=8pt,
+]{warningbox}
+
+% Scenario box
+\newmdenv[
+  backgroundcolor=lightgray,
+  linecolor=scenariogray,
+  linewidth=1.5pt,
+  leftmargin=0pt,
+  rightmargin=0pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=8pt,
+  innerbottommargin=8pt,
+]{scenariobox}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=conceptblue,
+  urlcolor=conceptblue,
+}
+
+\titleformat{\section}{\large\bfseries\color{conceptblue}}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries}{}{0em}{}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+
+%-----------------------------------------------------------------------
+% TITLE PAGE
+%-----------------------------------------------------------------------
+\begin{center}
+  {\LARGE\bfseries EsiBot}\\[6pt]
+  {\large Conception \& Réalisation d'un Robot Mobile Différentiel Autonome}\\[10pt]
+  {\normalsize
+    2 roues motrices · Radar ultrason rotatif · Inspiré du TurtleBot3 Burger\\[4pt]
+    ROS2 Humble | ESP32-CAM | Raspberry Pi 4 | SLAM | Nav2 | Impression 3D
+  }
+\end{center}
+
+\vspace{8pt}
+
+\begin{center}
+{\itshape Chaque groupe réalise Le robot EsiBot complet, de A à Z}
+\end{center}
+
+\vspace{6pt}
+
+\begin{center}
+\begin{tabular}{ll}
+\textbf{Durée}              & 10 semaines \\
+\textbf{Architecture motrice} & 2 roues motrices (différentiel) + 1 roue folle \\
+\textbf{Détection obstacles} & 1 capteur HC-SR04 monté sur servo-moteur (radar rotatif) \\
+\textbf{Composants}         & ESP32-CAM · Raspberry Pi 4 · Servo SG90 · HC-SR04 · \\
+                             & Moteurs DC jaunes · Imprimante 3D \\
+\textbf{Frameworks}         & ROS2 Humble · Nav2 · slam\_toolbox · OpenCV · rosbridge \\
+\textbf{Modèle de référence} & TurtleBot3 Burger (ROBOTIS / Open Robotics) \\
+\end{tabular}
+\end{center}
+
+%-----------------------------------------------------------------------
+\section{1. CONTEXTE ET MOTIVATION}
+%-----------------------------------------------------------------------
+
+EsiBot est un projet de robotique mobile autonome conçu pour les étudiants de 4ème année informatique. Il s'inspire directement du TurtleBot3 Burger de ROBOTIS, la plateforme de référence mondiale pour l'enseignement de ROS. L'objectif est de construire un robot réel, fonctionnel et open-source, entièrement réalisé par les étudiants à partir de composants accessibles et d'une imprimante 3D.
+
+Chacun des 3 groupes réalise son propre EsiBot de façon indépendante et complète. La comparaison des résultats entre groupes (qualité de la cartographie, précision de navigation, robustesse de la détection d'obstacles) constitue la dimension compétitive et pédagogique du projet.
+
+\begin{conceptbox}
+\textbf{CONCEPT CLÉ}\\[4pt]
+EsiBot = TurtleBot3 Burger adapté aux ressources de l'ESI. Même architecture ROS2, mêmes packages (slam\_toolbox, Nav2), mêmes topics — seuls les composants physiques changent : ESP32-CAM au lieu de l'OpenCR, et un radar ultrason rotatif (HC-SR04 + servo SG90) au lieu du LiDAR laser.
+\end{conceptbox}
+
+%-----------------------------------------------------------------------
+\section*{2. TABLEAU COMPARATIF TurtleBot3 Burger / EsiBot}
+%-----------------------------------------------------------------------
+
+\begin{longtable}{>{\bfseries}p{4.5cm} p{5cm} p{5.5cm}}
+\toprule
+\textbf{Caractéristique} & \textbf{TurtleBot3 Burger} & \textbf{EsiBot} \\
+\midrule
+\endhead
+Roues motrices & 2 × Dynamixel XL430 (servos) & 2 × Moteurs DC jaunes + encodeurs \\
+Roue folle & 1 ball caster & 1 roue folle imprimée 3D \\
+Microcontrôleur & OpenCR 1.0 (ARM Cortex-M7) & ESP32-CAM (WiFi intégré + caméra) \\
+Ordinateur embarqué & Raspberry Pi 3B+ / 4 & Raspberry Pi 4 (2 ou 4 Go) \\
+Capteur de distance & LiDAR 360° laser (HLS-LFCD2) & 1 × HC-SR04 sur servo SG90 (radar rotatif) \\
+Angle de balayage & 360° & 180° (servo 0°–180°) ou 360° (rotation continue) \\
+Caméra & Option (Raspberry Pi Cam) & ESP32-CAM OV2640 intégrée (streaming WiFi) \\
+Châssis & Pièces ABS moulées ROBOTIS & Impression 3D PLA (conçu par les étudiants) \\
+Framework & ROS2 Humble / Iron & ROS2 Humble (identique) \\
+SLAM & slam\_toolbox / cartographer & slam\_toolbox (identique) \\
+Navigation autonome & Nav2 & Nav2 (identique) \\
+Open-source matériel & Oui (STL fournis par ROBOTIS) & Oui (STL conçus par les étudiants) \\
+\bottomrule
+\end{longtable}
+
+%-----------------------------------------------------------------------
+\section{3. ARCHITECTURE SYSTÈME}
+%-----------------------------------------------------------------------
+
+\subsection{3.1 Architecture mécanique}
+
+EsiBot adopte l'architecture différentielle (Differential Drive) du TurtleBot3 Burger : 2 roues motrices indépendantes et 1 roue folle. La direction est assurée par la différence de vitesse entre les deux roues motrices — pas de mécanisme de direction dédié.
+
+\subsection{3.2 Le radar ultrason rotatif}
+
+Au lieu de 3 capteurs fixes, EsiBot utilise un seul capteur HC-SR04 monté sur un servo-moteur SG90. Le servo effectue un balayage de 0° à 180° (ou 360° en rotation continue), et le capteur mesure la distance à chaque angle. Ce système forme un radar de proximité, analogue fonctionnel du LiDAR du TurtleBot3.
+
+\begin{conceptbox}
+\textbf{ANALOGIE LIDAR}\\[4pt]
+TurtleBot3 utilise un LiDAR laser qui tourne à 360° et mesure la distance en continu. EsiBot fait exactement la même chose, mais avec un servo SG90 bon marché et un HC-SR04. Le résultat ROS2 est identique : un topic \texttt{/scan} de type \texttt{LaserScan}, consommable directement par \texttt{slam\_toolbox} et Nav2.
+\end{conceptbox}
+
+\begin{itemize}
+  \item \textbf{Servo SG90} : rotation de 0° à 180° par pas de 5° ou 10° — soit 18 à 36 mesures par balayage
+  \item \textbf{HC-SR04} : mesure la distance à l'angle courant du servo (portée 2 cm – 4 m, précision ±3 mm)
+  \item \textbf{Fréquence de balayage} : 1 tour complet en \textasciitilde0.5 à 1 seconde selon le pas angulaire choisi
+  \item \textbf{Sortie ROS2} : topic \texttt{/scan} (\texttt{sensor\_msgs/LaserScan}) — format identique au LiDAR TurtleBot3
+  \item \textbf{Support imprimé 3D} : tourelle fixée sur le plateau supérieur, centrée sur l'axe du robot
+\end{itemize}
+
+\subsection{3.3 Architecture matérielle complète}
+
+\begin{longtable}{>{\bfseries}p{2.8cm} p{3.2cm} p{3.5cm} p{0.6cm} p{2.2cm}}
+\toprule
+\textbf{Composant} & \textbf{Modèle} & \textbf{Rôle} & \textbf{Qté} & \textbf{Interface} \\
+\midrule
+\endhead
+Moteur DC gauche & Moteur jaune N20 + engrenage & Roue motrice gauche & 1 & PWM via L298N \\
+Moteur DC droite & Moteur jaune N20 + engrenage & Roue motrice droite & 1 & PWM via L298N \\
+Encodeur gauche & Optique ou effet Hall & Mesure tours/vitesse roue gauche (odométrie) & 1 & GPIO interrupt \\
+Encodeur droite & Optique ou effet Hall & Mesure tours/vitesse roue droite (odométrie) & 1 & GPIO interrupt \\
+Roue folle & Caster imprimé 3D + bille & Stabilisation — pas de moteur & 1 & Mécanique \\
+Driver moteur & L298N Dual H-Bridge & Contrôle PWM vitesse et sens des 2 moteurs & 1 & PWM / GPIO \\
+Servo-moteur & SG90 (ou MG90S métal) & Rotation du capteur HC-SR04 (0°–180°) & 1 & PWM GPIO ESP32 \\
+Capteur ultrason & HC-SR04 & Mesure de distance à l'angle du servo & 1 & GPIO TRIG/ECHO \\
+ESP32-CAM & AI-Thinker ESP32-CAM & MCU : moteurs + servo + HC-SR04 + caméra WiFi & 1 & UART / WiFi / GPIO \\
+Raspberry Pi 4 & RPi4 2Go ou 4Go & ROS2, SLAM, Nav2, réseau WiFi & 1 & USB / WiFi / GPIO \\
+Batterie & LiPo 3S 2200mAh ou Power bank & Alimentation autonome \textasciitilde45 min & 1 & 5V + 12V régulés \\
+Régulateur DC-DC & LM2596 / XL4016 & 5V stable pour RPi4 + ESP32 depuis la LiPo & 1 & Convertisseur \\
+Châssis complet & PLA impression 3D & 2 plateaux + entretoises + tourelle servo & -- & Fichiers STL \\
+\bottomrule
+\end{longtable}
+
+\subsection{3.4 Architecture logicielle — calquée sur TurtleBot3}
+
+\begin{center}
+\begin{tabular}{|p{4cm}|p{4cm}|p{4cm}|}
+\hline
+\multicolumn{1}{|c|}{\textbf{COUCHE HAUTE}} & \multicolumn{1}{c|}{\textbf{COUCHE MIDDLEWARE}} & \multicolumn{1}{c|}{\textbf{COUCHE BAS-NIVEAU}} \\
+\hline
+\multicolumn{1}{|c|}{PC / Tablette} & \multicolumn{1}{c|}{Raspberry Pi 4} & \multicolumn{1}{c|}{ESP32-CAM} \\
+\hline
+RViz2 | Dashboard web & ROS2 | SLAM | Nav2 & Moteurs | Servo | HC-SR04 | Caméra \\
+\hline
+\end{tabular}
+\end{center}
+
+La communication entre l'ESP32-CAM et le Raspberry Pi se fait via le port UART (câble série) ou via WiFi. L'ESP32 publie les données des capteurs et reçoit les commandes moteur. Le Raspberry Pi fait tourner la totalité de la pile ROS2.
+
+%-----------------------------------------------------------------------
+\section{4. TOPICS ET NŒUDS ROS2}
+%-----------------------------------------------------------------------
+
+\subsection{4.1 Topics principaux}
+
+Les topics ROS2 d'EsiBot sont identiques à ceux du TurtleBot3. Tout développeur familier avec TurtleBot3 retrouve immédiatement ses repères.
+
+\begin{longtable}{>{\ttfamily}p{3cm} p{3.8cm} p{2cm} p{2cm} p{3.5cm}}
+\toprule
+\textbf{Topic ROS2} & \textbf{Type de message} & \textbf{Publié par} & \textbf{Souscrit par} & \textbf{Description} \\
+\midrule
+\endhead
+/cmd\_vel & geometry\_msgs/Twist & teleop / Nav2 & esibot\_driver & Commandes de vitesse : linéaire (x) et angulaire (z) \\[4pt]
+/odom & nav\_msgs/Odometry & esibot\_driver & SLAM / Nav2 & Position et vitesse calculées par odométrie différentielle \\[4pt]
+/scan & sensor\_msgs/LaserScan & radar\_node & SLAM / Nav2 & Distances issues du balayage servo+HC-SR04 (pseudo-LiDAR) \\[4pt]
+/servo\_angle & std\_msgs/Float32 & radar\_node & esibot\_driver & Angle courant du servo-moteur en degrés (0°–180°) \\[4pt]
+/camera/image\_raw & sensor\_msgs/Image & esircam\_node & vision\_node & Flux vidéo brut ESP32-CAM OV2640 \\[4pt]
+/camera/compressed & sensor\_msgs/CompressedImage & esircam\_node & web\_bridge & Flux vidéo compressé pour le dashboard web \\[4pt]
+/map & nav\_msgs/OccupancyGrid & slam\_toolbox & Nav2 / RViz2 & Carte d'occupation 2D construite en temps réel \\[4pt]
+/tf & tf2\_msgs/TFMessage & robot\_state\_pub & Nav2 / RViz2 & Arbre des transformées : base\_link → odom → map + servo\_link \\[4pt]
+/goal\_pose & geometry\_msgs/PoseStamped & RViz2 / Dashboard & Nav2 & Objectif de navigation envoyé au planificateur Nav2 \\[4pt]
+/battery\_state & sensor\_msgs/BatteryState & esibot\_driver & dashboard\_node & Tension et état de la batterie \\
+\bottomrule
+\end{longtable}
+
+\subsection{4.2 Nœuds ROS2 à développer}
+
+\begin{longtable}{p{3cm} p{3cm} p{1.5cm} p{6cm}}
+\toprule
+\textbf{Nœud} & \textbf{Package} & \textbf{Langage} & \textbf{Rôle fonctionnel} \\
+\midrule
+\endhead
+esibot\_driver & esibot\_bringup & Python & Passerelle UART/WiFi entre l'ESP32 et ROS2 : reçoit les données encodeurs, publie \texttt{/odom}, envoie les commandes moteurs depuis \texttt{/cmd\_vel} \\[4pt]
+radar\_node & esibot\_sensors & Python & Pilote le servo SG90 (balayage 0°→180°→0°), lit le HC-SR04 à chaque angle, publie \texttt{/scan} au format LaserScan — analogue du driver LiDAR TurtleBot3 \\[4pt]
+esircam\_node & esibot\_camera & Python & Se connecte au serveur MJPEG de l'ESP32-CAM, décode le flux vidéo et publie sur \texttt{/camera/image\_raw} et \texttt{/camera/compressed} \\[4pt]
+robot\_state\_pub & robot\_state\_pub & C++ & Publie les transformées TF à partir de l'URDF du robot, incluant le joint servo (servo\_joint) pour visualiser la tourelle dans RViz2 \\[4pt]
+slam\_toolbox & slam\_toolbox & C++ & SLAM en ligne : construit la carte OccupancyGrid et localise le robot simultanément à partir du topic \texttt{/scan} (package standard ROS2) \\[4pt]
+nav2\_bringup & nav2\_bringup & C++ & Stack de navigation Nav2 : planificateur de trajectoire, costmap, évitement dynamique d'obstacles, behaviour trees (package standard ROS2) \\[4pt]
+vision\_node & esibot\_vision & Python & Traitement du flux caméra avec OpenCV : détection de ligne, d'obstacles visuels, annotation et republication du flux \\[4pt]
+web\_bridge & rosbridge\_suite & JS/Py & Passerelle WebSocket ROS2 $\leftrightarrow$ navigateur web permettant au dashboard de lire les topics et envoyer des commandes \\[4pt]
+dashboard\_node & esibot\_ui & Python & Serveur web embarqué sur le Raspberry Pi : affiche la carte SLAM, le flux caméra, l'angle du servo et l'état du robot en temps réel \\
+\bottomrule
+\end{longtable}
+
+%-----------------------------------------------------------------------
+\section{6. TÂCHES DÉTAILLÉES}
+%-----------------------------------------------------------------------
+
+\subsection*{Phase 1 — Conception \& Fabrication du châssis}
+
+\textbf{Tâche 1.1 — Modélisation CAO Impression 3D}
+
+Outils : FreeCAD (libre et gratuit) ou autres. Le châssis s'inspire du TurtleBot3 Burger avec 2 plateaux superposés. Ou bien télécharger les fichier stl.
+
+\begin{enumerate}
+  \item Paramétrer le slicer (Cura ou PrusaSlicer) : remplissage 20–25\,\%, buse 0.4 mm, PLA
+  \item Imprimer les plateaux
+  \item Imprimer les entretoises, la tourelle servo, la roue folle, les supports capteurs (\textasciitilde2h)
+\end{enumerate}
+
+\textbf{Tâche 1.3 — Assemblage mécanique (Semaine 2–3)}
+
+\begin{enumerate}
+  \setcounter{enumi}{3}
+  \item Fixer les 2 moteurs DC jaunes sur le plateau inférieur avec vis M3
+  \item Monter les 2 roues motrices sur les axes moteurs
+  \item Fixer la roue folle à l'arrière du plateau inférieur
+  \item Assembler les 2 plateaux avec les entretoises
+  \item Installer le servo SG90 dans la tourelle sur le plateau supérieur
+  \item Fixer le HC-SR04 sur le bras du servo
+  \item Vérifier la stabilité du robot posé et le libre débattement de la tourelle (0°–180°)
+\end{enumerate}
+
+\subsection*{Phase 2 — Câblage électronique}
+
+\textbf{Tâche 2.1 — Schéma de câblage}
+
+Réaliser le schéma complet sur Fritzing ou KiCad avant de câbler physiquement. Le schéma est un livrable évalué.
+
+\begin{enumerate}
+  \setcounter{enumi}{10}
+  \item Alimentation : batterie LiPo 3S → régulateur DC-DC → 5V pour Raspberry Pi 4 et ESP32-CAM ; 12V pour les moteurs
+  \item Moteurs : câbler les 2 moteurs DC jaunes sur les sorties OUT1–OUT4 du L298N
+  \item Driver L298N : relier les entrées IN1–IN4 et ENA/ENB aux broches GPIO de l'ESP32-CAM
+  \item Servo SG90 : signal PWM depuis une broche GPIO de l'ESP32-CAM ; alimentation 5V
+  \item HC-SR04 : TRIG et ECHO sur 2 broches GPIO de l'ESP32-CAM ; VCC 3.3V ; GND
+  \item Encodeurs : 2 sorties (une par roue) sur des broches GPIO à interruption de l'ESP32-CAM
+  \item Liaison série : ESP32-CAM (TX/RX) $\leftrightarrow$ Raspberry Pi 4 (RX/TX) via convertisseur de niveaux 3.3V/5V si nécessaire
+\end{enumerate}
+
+\begin{warningbox}
+\textbf{ATTENTION CÂBLAGE}\\[4pt]
+Les GPIO de l'ESP32-CAM et du Raspberry Pi 4 sont en 3.3V. Ne jamais connecter directement un signal 5V sur ces broches sous peine de destruction. Utiliser un diviseur de tension ou un convertisseur de niveaux logiques.
+\end{warningbox}
+
+\subsection*{Phase 3 — Développement logiciel ROS2 (Semaines 4–8)}
+
+\textbf{Tâche 3.1 — Installation de ROS2 sur le Raspberry Pi 4 (Semaine 4–5)}
+
+\begin{enumerate}
+  \setcounter{enumi}{17}
+  \item Ubuntu Server 22.04 64-bit sur la carte microSD
+  \item Configurer le WiFi, SSH, hostname (\texttt{esibot-groupeX})
+  \item Installer ROS2 Humble selon la procédure officielle (\texttt{docs.ros.org})
+  \item Créer le workspace ROS2 : \texttt{\textasciitilde/esibot\_ws/src}
+  \item Installer les packages dépendants : nav2, slam\_toolbox, teleop\_twist\_keyboard, rosbridge\_suite, cv\_bridge
+  \item Tester l'installation avec les exemples de base ROS2
+\end{enumerate}
+
+\textbf{Tâche 3.2 — Nœud esibot\_driver (Semaine 5)}
+
+Ce nœud est le pont entre l'ESP32 et ROS2 — équivalent exact du driver OpenCR dans le TurtleBot3.
+
+\begin{enumerate}
+  \setcounter{enumi}{23}
+  \item Implémenter la réception des données encodeurs depuis l'ESP32 via UART
+  \item Calculer l'odométrie différentielle (position x, y, cap theta) à partir des données encodeurs
+  \item Publier l'odométrie sur le topic \texttt{/odom} (\texttt{nav\_msgs/Odometry})
+  \item Souscrire au topic \texttt{/cmd\_vel} (\texttt{geometry\_msgs/Twist}) et envoyer les commandes moteurs à l'ESP32
+  \item Implémenter la publication de l'état batterie sur \texttt{/battery\_state}
+\end{enumerate}
+
+\textbf{Tâche 3.3 — Nœud radar\_node — le pseudo-LiDAR (Semaines 5–6)}
+
+C'est le nœud le plus original d'EsiBot. Il simule un LiDAR en pilotant le servo et en lisant le HC-SR04.
+
+\begin{enumerate}
+  \setcounter{enumi}{28}
+  \item Implémenter le contrôle du servo SG90 : balayage de 0° à 180° par pas de 5° ou 10°
+  \item À chaque angle, déclencher une mesure HC-SR04 et récupérer la distance en mètres
+  \item Construire un message \texttt{sensor\_msgs/LaserScan} à partir des paires (angle, distance)
+  \item Publier le LaserScan sur le topic \texttt{/scan} à une fréquence de 1–2 Hz
+  \item Publier l'angle courant sur \texttt{/servo\_angle} pour la visualisation TF dans RViz2
+  \item Tester la cohérence des données avec RViz2 (affichage LaserScan overlay sur la carte)
+\end{enumerate}
+
+\textbf{Tâche 3.4 — Nœud esircam\_node (Semaine 6)}
+
+\begin{enumerate}
+  \setcounter{enumi}{34}
+  \item Configurer l'ESP32-CAM pour démarrer son serveur de streaming MJPEG au démarrage
+  \item Développer le nœud qui se connecte à l'URL HTTP de l'ESP32-CAM et décode le flux MJPEG
+  \item Publier les images décodées sur \texttt{/camera/image\_raw} et \texttt{/camera/compressed}
+  \item Tester l'affichage du flux dans RViz2 (plugin Image Display)
+\end{enumerate}
+
+\textbf{Tâche 3.5 — SLAM avec slam\_toolbox (Semaines 6–7)}
+
+\begin{enumerate}
+  \setcounter{enumi}{38}
+  \item Créer le fichier de paramètres SLAM (\texttt{mapper\_params\_online\_async.yaml}) adapté à EsiBot
+  \item Lancer le SLAM en mode \texttt{online\_async} et télé-opérer le robot pour construire la carte
+  \item Visualiser la carte en cours de construction dans RViz2
+  \item Sauvegarder la carte une fois la zone entièrement couverte
+  \item Évaluer la qualité : comparer la carte obtenue avec un plan réel de la pièce
+\end{enumerate}
+
+\textbf{Tâche 3.6 — Navigation autonome avec Nav2 (Semaines 7–8)}
+
+\begin{enumerate}
+  \setcounter{enumi}{43}
+  \item Configurer Nav2 avec les paramètres d'EsiBot (rayon robot, vitesse max, costmap)
+  \item Lancer Nav2 en mode localisation sur la carte précédemment construite
+  \item Initialiser la position du robot via RViz2 (2D Pose Estimate)
+  \item Envoyer des goals de navigation et observer le robot planifier sa trajectoire et éviter les obstacles
+  \item Tester 3 scénarios : couloir droit, contournement d'obstacle statique, waypoints multiples
+\end{enumerate}
+
+\subsection*{Phase 4 — Vision \& Interface web}
+
+\textbf{Tâche 4.1 — Nœud vision\_node}
+
+\begin{enumerate}
+  \setcounter{enumi}{48}
+  \item Souscrire au topic \texttt{/camera/image\_raw}
+  \item Appliquer des traitements OpenCV ou Autre : détection de ligne au sol, détection d'obstacles par couleur ou contour
+  \item Optionnel : Annoter les images (tracé des détections) et republier sur \texttt{/camera/image\_annotated}
+  \item Optionnel : détecter des objets spécifiques (panneau stop, balle colorée) avec un modèle léger
+\end{enumerate}
+
+\textbf{Tâche 4.2 — Dashboard web de monitoring}
+
+\begin{enumerate}
+  \setcounter{enumi}{52}
+  \item Installer et lancer rosbridge\_suite (WebSocket ROS2 $\leftrightarrow$ navigateur web)
+  \item Créer une page web affichant : la carte SLAM en temps réel, le flux vidéo, la position du robot, l'angle du servo, l'état batterie
+  \item Ajouter des boutons de téléopération (avance, recule, tourne gauche/droite, stop)
+  \item Ajouter un bouton `Envoyer un goal' permettant de définir une destination sur la carte
+  \item Héberger la page sur le Raspberry Pi — accessible depuis n'importe quel navigateur sur le réseau WiFi local
+\end{enumerate}
+
+\subsection*{Phase 5 — Intégration, Tests \& Présentation}
+
+\textbf{Tâche 5.1 — Tests d'intégration}
+
+\begin{enumerate}
+  \setcounter{enumi}{57}
+  \item Test 1 — Démarrage complet : tous les nœuds ROS2 lancés avec une seule commande
+  \item Test 2 — Radar : vérifier la cohérence du LaserScan (distances correctes dans RViz2)
+  \item Test 3 — SLAM : cartographier une zone de 4 × 4 m, évaluer la qualité de la carte
+  \item Test 4 — Navigation : robot navigue seul vers 3 goals consécutifs sans collision
+  \item Test 5 — Vision : flux caméra visible sur dashboard, détections affichées
+  \item Test 6 — Dashboard web : toutes les fonctionnalités accessibles depuis un navigateur
+  \item Mesurer : latence /cmd, fréquence /scan, précision odométrie sur 2 m, durée batterie
+\end{enumerate}
+
+\textbf{Tâche 5.2 — Rapport technique}
+
+\begin{enumerate}
+  \setcounter{enumi}{64}
+  \item Rédiger l'architecture complète : mécanique (vues CAO), électronique (schéma câblage), logicielle (diagramme nœuds/topics ROS2)
+  \item Documenter chaque nœud ROS2 : rôle, topics publiés/souscrits, paramètres configurables
+  \item Présenter et analyser les résultats de cartographie (qualité, limitations dues au radar)
+  \item Analyser les difficultés rencontrées (notamment les limites du servo vs LiDAR) et les solutions apportées
+  \item Rédiger le README GitHub avec toutes les instructions d'installation et de lancement
+\end{enumerate}
+
+\textbf{Tâche 5.3 — Soutenance finale}
+
+\begin{enumerate}
+  \setcounter{enumi}{69}
+  \item Présentation orale de 15 minutes + 10 minutes de questions jury
+  \item Démonstration live : le robot cartographie une zone imposée par le jury, puis navigue seul vers 2 goals
+  \item Remise du code source complet sur GitHub (dépôt public, branches propres, commits documentés)
+  \item Remise du rapport technique en PDF
+  \item Vidéo demo
+  \item Poster
+\end{enumerate}
+
+%-----------------------------------------------------------------------
+\section{8. LIVRABLES ET CRITÈRES D'ÉVALUATION}
+%-----------------------------------------------------------------------
+
+\subsection{8.1 Livrables attendus par groupe}
+
+\begin{longtable}{>{\bfseries}p{0.4cm} p{3.5cm} p{3.5cm} p{6cm}}
+\toprule
+\textbf{\#} & \textbf{Livrable} & \textbf{Format} & \textbf{Contenu minimum} \\
+\midrule
+\endhead
+1 & Fichiers CAO + STL & FreeCAD / STL & Châssis complet : 2 plateaux, entretoises, tourelle servo, roue folle \\[4pt]
+2 & Schéma électronique & PDF (Fritzing/KiCad) & Câblage ESP32 + L298N + servo + HC-SR04 + RPi4 + alimentation \\[4pt]
+3 & Workspace ROS2 & GitHub & Packages esibot\_* avec launch files, fichiers URDF, paramètres YAML \\[4pt]
+4 & Carte SLAM sauvegardée & Fichier .pgm + .yaml & Carte d'une zone test de minimum 3 m × 3 m \\[4pt]
+5 & Dashboard web & HTML/JS (GitHub Pages) & Carte + vidéo + commandes + angle servo + état batterie \\[4pt]
+6 & Rapport technique & PDF (15–25 pages) & Architecture, schémas, résultats mesurés, analyse limitations, bilan \\[4pt]
+7 & Vidéo de démonstration & MP4 (3–5 minutes) & Démarrage → cartographie → navigation autonome → dashboard \\[4pt]
+8 & README GitHub & Markdown & Installation complète, lancement, dépendances, architecture \\
+\bottomrule
+\end{longtable}
+
+\subsection{8.2 Grille d'évaluation}
+
+\begin{longtable}{p{6cm} p{8cm}}
+\toprule
+\textbf{Critère} & \textbf{Ce qui est évalué} \\
+\midrule
+\endhead
+Démonstration live du robot & Robot cartographie, navigue seul, évite les obstacles, dashboard fonctionnel \\[4pt]
+Code ROS2 et architecture logicielle & Qualité du code, structure des packages, launch files, documentation \\[4pt]
+Rapport technique & Précision des schémas, analyse des résultats, comparaison inter-groupes \\[4pt]
+Organisation \& gestion de projet & Commits Git réguliers, planning respecté, répartition des tâches \\[4pt]
+Interface web & Dashboard complet, réactif et accessible depuis le réseau local \\[4pt]
+Soutenance orale & Clarté, maîtrise technique, qualité des réponses au jury \\
+\bottomrule
+\end{longtable}
+
+\subsection{8.3 Scénario de démonstration imposé}
+
+\begin{scenariobox}
+\textbf{SCENARIO JURY}\\[4pt]
+Le jury place EsiBot dans une pièce inconnue. L'équipe lance le robot avec une seule commande. Phase 1 (2 min) : télé-opération pour construire la carte — la carte apparaît en direct sur le dashboard. Phase 2 : le jury désigne 2 points sur la carte. Le robot navigue seul jusqu'à chaque point en évitant les obstacles. Bonus : le jury place un obstacle surprise pendant la navigation.
+\end{scenariobox}
+
+%-----------------------------------------------------------------------
+\section{9. RESSOURCES ET RÉFÉRENCES}
+%-----------------------------------------------------------------------
+
+\subsection*{Documentation officielle}
+
+\begin{itemize}
+  \item TurtleBot3 e-Manual (architecture de référence) : \url{emanual.robotis.com/docs/en/platform/turtlebot3}
+  \item ROS2 Humble : \url{docs.ros.org/en/humble}
+  \item slam\_toolbox : \url{github.com/SteveMacenski/slam_toolbox}
+  \item Nav2 : \url{navigation.ros.org}
+  \item ESP32-CAM Arduino : \url{randomnerdtutorials.com/esp32-cam-video-streaming}
+  \item SG90 avec ROS2 : \url{servos.ros.org} ou tutoriels PlatformIO
+\end{itemize}
+
+\subsection*{Tutoriels recommandés}
+
+\begin{itemize}
+  \item Articulated Robotics (YouTube) : construction d'un robot ROS2 différentiel de A à Z — très proche d'EsiBot
+  \item The Construct (YouTube) : Nav2 Stack, slam\_toolbox, TF2
+  \item Josh Newans : Differential Drive Robot with ROS2 (URDF + gazebo + nav2)
+\end{itemize}
+
+\subsection*{Outils logiciels}
+
+\begin{itemize}
+  \item Modélisation 3D : FreeCAD (libre) ou Fusion 360 (licence étudiante)
+  \item Slicer impression 3D : Ultimaker Cura ou PrusaSlicer
+  \item Firmware ESP32 : VS Code + PlatformIO + Arduino ESP32
+  \item Schémas électroniques : Fritzing (libre) ou KiCad
+  \item IDE ROS2 : VS Code + extension ROS + extension Python
+  \item Simulation (optionnel, pour tester sans robot physique) : Gazebo + modèle TurtleBot3
+\end{itemize}
+
+\end{document}

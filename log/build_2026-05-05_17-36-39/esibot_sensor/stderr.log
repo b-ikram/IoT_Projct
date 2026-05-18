@@ -1,0 +1,5 @@
+  File "/home/user/esibot_ws/install/esibot_sensor/lib/python3.10/site-packages/esibot_sensor/radar_node.py", line 1
+    cat radar_node.py
+        ^^^^^^^^^^
+SyntaxError: invalid syntax
+

@@ -1,0 +1,5 @@
+[0.000000] (-) TimerEvent: {}
+[0.000537] (-) JobUnselected: {'identifier': 'esibot_bringup'}
+[0.000926] (-) JobUnselected: {'identifier': 'esibot_camera'}
+[0.001348] (-) JobUnselected: {'identifier': 'esibot_sensor'}
+[0.001430] (-) EventReactorShutdown: {}

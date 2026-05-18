@@ -1,0 +1,21 @@
+[2.957s] Invoking command in '/home/user/esibot_ws/src/esibot_sensor': PYTHONPATH=/home/user/esibot_ws/build/esibot_sensor/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/user/esibot_ws/install/esibot_sensor/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/esibot_sensor build --build-base /home/user/esibot_ws/build/esibot_sensor/build install --record /home/user/esibot_ws/build/esibot_sensor/install.log --single-version-externally-managed install_data
+[4.104s] running egg_info
+[4.107s] writing ../../build/esibot_sensor/esibot_sensor.egg-info/PKG-INFO
+[4.108s] writing dependency_links to ../../build/esibot_sensor/esibot_sensor.egg-info/dependency_links.txt
+[4.109s] writing entry points to ../../build/esibot_sensor/esibot_sensor.egg-info/entry_points.txt
+[4.110s] writing requirements to ../../build/esibot_sensor/esibot_sensor.egg-info/requires.txt
+[4.111s] writing top-level names to ../../build/esibot_sensor/esibot_sensor.egg-info/top_level.txt
+[4.119s] reading manifest file '../../build/esibot_sensor/esibot_sensor.egg-info/SOURCES.txt'
+[4.123s] writing manifest file '../../build/esibot_sensor/esibot_sensor.egg-info/SOURCES.txt'
+[4.124s] running build
+[4.124s] running build_py
+[4.125s] running install
+[4.126s] running install_lib
+[4.132s] running install_data
+[4.133s] running install_egg_info
+[4.144s] removing '/home/user/esibot_ws/install/esibot_sensor/lib/python3.10/site-packages/esibot_sensor-0.0.0-py3.10.egg-info' (and everything under it)
+[4.146s] Copying ../../build/esibot_sensor/esibot_sensor.egg-info to /home/user/esibot_ws/install/esibot_sensor/lib/python3.10/site-packages/esibot_sensor-0.0.0-py3.10.egg-info
+[4.152s] running install_scripts
+[4.231s] Installing radar_node script to /home/user/esibot_ws/install/esibot_sensor/lib/esibot_sensor
+[4.233s] writing list of installed files to '/home/user/esibot_ws/build/esibot_sensor/install.log'
+[4.358s] Invoked command in '/home/user/esibot_ws/src/esibot_sensor' returned '0': PYTHONPATH=/home/user/esibot_ws/build/esibot_sensor/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/user/esibot_ws/install/esibot_sensor/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/esibot_sensor build --build-base /home/user/esibot_ws/build/esibot_sensor/build install --record /home/user/esibot_ws/build/esibot_sensor/install.log --single-version-externally-managed install_data
