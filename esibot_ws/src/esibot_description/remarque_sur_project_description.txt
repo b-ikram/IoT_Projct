@@ -1,0 +1,1 @@
+- le tex file propose de lier les encodeurs et le l298n avec esp32 mais on va les lier avec le raspberry pi 4 directement
