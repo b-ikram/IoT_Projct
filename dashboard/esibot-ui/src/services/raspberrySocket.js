@@ -14,7 +14,7 @@ export function connectRaspberry(callbacks = {}) {
     return;
   }
 
-  socket = new WebSocket("ws://10.82.115.2:9091");
+  socket = new WebSocket("ws://iot-project:9091");
 
   socket.onopen = () => {
     console.log(" Raspberry connected");

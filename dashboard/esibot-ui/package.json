@@ -10,9 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "easeljs": "^1.0.2",
+    "eventemitter2": "^6.4.9",
     "lucide-react": "^1.14.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
+    "react-router-dom": "^7.15.1",
     "roslib": "^2.1.0"
   },
   "devDependencies": {

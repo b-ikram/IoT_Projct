@@ -59,7 +59,7 @@ topic.subscribe((msg) => {
         </div>
       </div>
 
-      <div className="h-[370px] rounded-[10px] overflow-hidden border border-[#263146] bg-[#050505] flex items-center justify-center">
+      <div className="h-[500px] rounded-[10px] overflow-hidden border border-[#263146] bg-[#050505] flex items-center justify-center">
         {cameraConnected ? (
           <img
             src={imageSrc}

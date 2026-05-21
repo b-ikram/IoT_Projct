@@ -1,20 +1,137 @@
-import { Crosshair, MapPin } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import * as ROSLIB from "roslib";
+import { ros } from "../services/ros";
+import { Crosshair, Maximize2 } from "lucide-react";
 
 export default function MapPanel() {
-  const [selectingGoal, setSelectingGoal] = useState(false);
-  const [goal, setGoal] = useState(null);
-const [robot, setRobot] = useState({ x: 12, y: 150 });
-  const handleMapClick = (e) => {
-    if (!selectingGoal) return;
+  const canvasRef = useRef(null);
+  const mapInfoRef = useRef(null);
+  const mapDataRef = useRef(null);
+  const robotPosRef = useRef({ x: 0, y: 0, yaw: 0 });
+  const [robotPos, setRobotPos] = useState({ x: 0, y: 0, yaw: 0 });
+  const [mapSize, setMapSize] = useState("--");
+  const [mapReceived, setMapReceived] = useState(false);
 
-    const rect = e.currentTarget.getBoundingClientRect();
+  useEffect(() => {
 
-    const x = ((e.clientX - rect.left) / rect.width) * 360;
-    const y = ((e.clientY - rect.top) / rect.height) * 230;
+    // drawMap EST DANS useEffect — accès correct aux refs
+    const drawMap = () => {
+      const canvas = canvasRef.current;
+      const mapData = mapDataRef.current;
+      const info = mapInfoRef.current;
 
-    setGoal({ x, y });
-    setSelectingGoal(false);
+      console.log("drawMap appelé", !!canvas, !!mapData, !!info);
+
+      if (!canvas || !mapData || !info) return;
+
+      canvas.width = mapData.width;
+      canvas.height = mapData.height;
+      const ctx = canvas.getContext("2d");
+
+      for (let i = 0; i < mapData.data.length; i++) {
+        const val = mapData.data[i];
+        const x = i % mapData.width;
+        const y = Math.floor(i / mapData.width);
+        if (val === -1)      ctx.fillStyle = "#1a1a2e";
+        else if (val === 0)  ctx.fillStyle = "#2a2a2a";
+        else                 ctx.fillStyle = "#148bff";
+        ctx.fillRect(x, mapData.height - y - 1, 1, 1);
+      }
+
+      const rx = (robotPosRef.current.x - info.origin.position.x) / info.resolution;
+      const ry = mapData.height - (robotPosRef.current.y - info.origin.position.y) / info.resolution;
+      ctx.beginPath();
+      ctx.arc(rx, ry, 5, 0, 2 * Math.PI);
+      ctx.fillStyle = "#ff5050";
+      ctx.fill();
+    };
+
+    const mapTopic = new ROSLIB.Topic({
+      ros,
+      name: "/map",
+      messageType: "nav_msgs/OccupancyGrid",
+    });
+
+    mapTopic.subscribe((msg) => {
+      console.log("✅ MAP RECU:", msg.info.width, "x", msg.info.height, "| points:", msg.data.length);
+      const { width, height, resolution, origin } = msg.info;
+      mapInfoRef.current = { width, height, resolution, origin };
+      mapDataRef.current = { data: msg.data, width, height };
+      setMapSize(`${width}x${height}`);
+      setMapReceived(true);
+      drawMap();
+    });
+
+    const odomTopic = new ROSLIB.Topic({
+      ros,
+      name: "/odom",
+      messageType: "nav_msgs/Odometry",
+    });
+
+    odomTopic.subscribe((msg) => {
+      const qz = msg.pose.pose.orientation.z;
+      const qw = msg.pose.pose.orientation.w;
+      const yaw = ((2 * Math.atan2(qz, qw) * 180 / Math.PI) % 360 + 360) % 360;
+      const pos = {
+        x: msg.pose.pose.position.x,
+        y: msg.pose.pose.position.y,
+        yaw,
+      };
+      robotPosRef.current = pos;
+      setRobotPos(pos);
+      drawMap();
+    });
+
+    return () => {
+      mapTopic.unsubscribe();
+      odomTopic.unsubscribe();
+    };
+  }, []);
+
+  // -- handleExpand inchangé --
+  const handleExpand = () => {
+    const win = window.open("", "_blank", "width=1200,height=800");
+    win.document.write(`<!DOCTYPE html><html><head><title>SLAM Map</title>
+      <style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#101010;color:white;font-family:sans-serif;}
+      #header{height:60px;background:#1a1a1a;display:flex;align-items:center;padding:0 20px;border-bottom:1px solid #333;justify-content:space-between;}
+      #header h1{font-size:15px;font-weight:800;}.pos-box{background:#111;padding:4px 10px;border-radius:8px;}
+      .pos-label{font-size:9px;color:#888;display:block;}.pos-value{color:#148bff;font-size:13px;font-weight:800;}
+      #map-container{width:100vw;height:calc(100vh - 60px);background:#101010;display:flex;align-items:center;justify-content:center;}
+      #map-canvas{image-rendering:pixelated;width:100%;height:100%;object-fit:contain;}#status{font-size:12px;color:#888;}</style>
+      </head><body>
+      <div id="header"><h1>🗺️ SLAM Map</h1>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <div class="pos-box"><span class="pos-label">X</span><strong id="pos-x" class="pos-value">0.000m</strong></div>
+        <div class="pos-box"><span class="pos-label">Y</span><strong id="pos-y" class="pos-value">0.000m</strong></div>
+        <div class="pos-box"><span class="pos-label">YAW</span><strong id="pos-yaw" class="pos-value">0.0°</strong></div>
+        <span id="status">Connecting...</span>
+      </div></div>
+      <div id="map-container"><canvas id="map-canvas"></canvas></div>
+      <script src="https://cdn.jsdelivr.net/npm/roslib@1.4.1/build/roslib.min.js"></script>
+      <script>
+        var ros=new ROSLIB.Ros({url:'ws://iot-project:9090'});
+        var mapInfo=null,mapData=null,robotX=0,robotY=0;
+        var canvas=document.getElementById('map-canvas'),ctx=canvas.getContext('2d');
+        ros.on('connection',function(){document.getElementById('status').textContent='Connected';document.getElementById('status').style.color='#50e38b';});
+        ros.on('error',function(){document.getElementById('status').textContent='Disconnected';document.getElementById('status').style.color='#ff5050';});
+        function drawMap(){
+          if(!mapData||!mapInfo)return;
+          var w=mapInfo.width,h=mapInfo.height;
+          canvas.width=w;canvas.height=h;
+          for(var i=0;i<mapData.length;i++){var val=mapData[i],x=i%w,y=Math.floor(i/w);
+            ctx.fillStyle=val===-1?'#1a1a2e':val===0?'#2a2a2a':'#148bff';ctx.fillRect(x,h-y-1,1,1);}
+          var rx=(robotX-mapInfo.origin.position.x)/mapInfo.resolution;
+          var ry=h-(robotY-mapInfo.origin.position.y)/mapInfo.resolution;
+          ctx.beginPath();ctx.arc(rx,ry,3,0,2*Math.PI);ctx.fillStyle='#ff5050';ctx.fill();}
+        new ROSLIB.Topic({ros:ros,name:'/map',messageType:'nav_msgs/OccupancyGrid'}).subscribe(function(msg){mapInfo=msg.info;mapData=msg.data;drawMap();});
+        new ROSLIB.Topic({ros:ros,name:'/odom',messageType:'nav_msgs/Odometry'}).subscribe(function(msg){
+          robotX=msg.pose.pose.position.x;robotY=msg.pose.pose.position.y;
+          var q=msg.pose.pose.orientation,yaw=Math.atan2(2*(q.w*q.z+q.x*q.y),1-2*(q.y*q.y+q.z*q.z)),deg=((yaw*180/Math.PI)%360+360)%360;
+          document.getElementById('pos-x').textContent=robotX.toFixed(3)+'m';
+          document.getElementById('pos-y').textContent=robotY.toFixed(3)+'m';
+          document.getElementById('pos-yaw').textContent=deg.toFixed(1)+'°';drawMap();});
+      </script></body></html>`);
+    win.document.close();
   };
 
   return (
@@ -24,96 +141,48 @@ const [robot, setRobot] = useState({ x: 12, y: 150 });
           <Crosshair size={18} className="text-white" />
           Real-time SLAM Map
         </h3>
-
         <button
-          onClick={() => setSelectingGoal(true)}
-          className={`h-[42px] px-[18px] rounded-[10px] text-[#ffffff] text-[14px] font-bold border-transparent active:scale-[0.96] transition-all ${
-            selectingGoal
-              ? "bg-[#ffa927] shadow-[0_0_14px_rgba(255,169,39,0.35)]"
-              : "bg-[#148bff] shadow-[0_0_14px_rgba(20,139,255,0.35)] hover:bg-[#0f7ee8]"
-          }`}
+          onClick={handleExpand}
+          className="h-[38px] px-[14px] rounded-[10px] bg-[#1a1a1a] border border-[#3a3a3a] text-[#aaa] text-[12px] flex items-center gap-2 hover:text-white hover:border-[#555] transition-all"
         >
-          {selectingGoal ? "Click Map" : "Set Goal"}
+          <Maximize2 size={14} />
+          Expand
         </button>
       </div>
 
-      <div
-        onClick={handleMapClick}
-        className={`h-[230px] bg-[#101010] rounded-[14px] overflow-hidden relative ${
-          selectingGoal ? "cursor-crosshair ring-1 ring-[#ffa927]" : ""
-        }`}
-      >
-        <svg viewBox="0 0 360 230" className="w-full h-full">
-          <path
-            d="M55 88 C92 34 145 55 177 112 S245 203 290 151 S312 58 323 25"
-            fill="none"
-            stroke="#148bff"
-            strokeWidth="3"
-            strokeDasharray="7 9"
-            opacity="0.75"
-          />
-
-          <rect x="225" y="92" width="70" height="84" fill="#1d1d1d" opacity="0.95" />
-
-          <ellipse
-            cx="192"
-            cy="110"
-            rx="15"
-            ry="8"
-            fill="#343434"
-            opacity="0.9"
-            transform="rotate(-20 192 110)"
-          />
-
-          <circle cx={robot.x} cy={robot.y}  r="17" fill="#06264a" stroke="#148bff" strokeWidth="2" />
-          <circle cx={robot.x} cy={robot.y}  r="9" fill="none" stroke="#148bff" strokeWidth="2" />
-          <circle cx={robot.x} cy={robot.y}  fill="#148bff" />
-
-          <path
-  d={`M ${robot.x} ${robot.y - 7} L ${robot.x + 6} ${robot.y} L ${robot.x} ${robot.y + 7}`}
-  fill="none"
-  stroke="#148bff"
-  strokeWidth="2"
-  strokeLinecap="round"
-  strokeLinejoin="round"
-/>
-
-          {goal && (
-            <g>
-              <circle
-                cx={goal.x}
-                cy={goal.y}
-                r="12"
-                fill="rgba(255,169,39,0.18)"
-                stroke="#ffa927"
-                strokeWidth="2"
-              />
-              <circle cx={goal.x} cy={goal.y} r="4" fill="#ffa927" />
-              <path
-                d={`M ${goal.x} ${goal.y - 18} L ${goal.x} ${goal.y + 18} M ${goal.x - 18} ${goal.y} L ${goal.x + 18} ${goal.y}`}
-                stroke="#ffa927"
-                strokeWidth="2"
-                opacity="0.8"
-              />
-            </g>
-          )}
-        </svg>
-
-        {selectingGoal && (
-          <div className="absolute left-3 top-3 px-3 py-1.5 rounded-full bg-[#ffa92722] border border-[#ffa92755] text-[#ffa927] text-[11px] font-bold">
-            Select destination
-          </div>
+      <div className="h-[230px] bg-[#101010] rounded-[14px] overflow-hidden relative flex items-center justify-center">
+        {!mapReceived && (
+          <span className="text-[#555] text-[12px]">En attente de la carte SLAM...</span>
         )}
+        <canvas
+          ref={canvasRef}
+          style={{
+            imageRendering: "pixelated",
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+            display: mapReceived ? "block" : "none",
+          }}
+        />
       </div>
 
-      <div className="flex items-center justify-between mt-[14px] text-[12px] text-[#9a9a9a]">
-        <span>Odometry Drift: 0.02m</span>
-
-        <em className={selectingGoal ? "text-[#ffa927]" : ""}>
-          {goal
-            ? `Goal set: x=${goal.x.toFixed(0)}, y=${goal.y.toFixed(0)}`
-            : "Click on map to set navigation goal"}
-        </em>
+      <div className="flex items-center gap-[8px] mt-4">
+        <div className="flex-1 bg-[#111] px-[10px] py-[6px] rounded-[8px]">
+          <span className="block text-[9px] text-[#888]">X</span>
+          <strong className="text-[13px] text-[#148bff]">{robotPos.x.toFixed(3)}m</strong>
+        </div>
+        <div className="flex-1 bg-[#111] px-[10px] py-[6px] rounded-[8px]">
+          <span className="block text-[9px] text-[#888]">Y</span>
+          <strong className="text-[13px] text-[#148bff]">{robotPos.y.toFixed(3)}m</strong>
+        </div>
+        <div className="flex-1 bg-[#111] px-[10px] py-[6px] rounded-[8px]">
+          <span className="block text-[9px] text-[#888]">YAW</span>
+          <strong className="text-[13px] text-[#148bff]">{robotPos.yaw.toFixed(1)}°</strong>
+        </div>
+        <div className="flex-1 bg-[#111] px-[10px] py-[6px] rounded-[8px]">
+          <span className="block text-[9px] text-[#888]">MAP</span>
+          <strong className="text-[11px] text-[#888]">{mapSize}</strong>
+        </div>
       </div>
     </section>
   );

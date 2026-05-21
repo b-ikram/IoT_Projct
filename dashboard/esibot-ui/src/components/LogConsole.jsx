@@ -28,7 +28,7 @@ export default function LogConsole() {
   }, []);
 
   return (
-    <section className="bg-[#151515] border border-[#2f2f2f] rounded-[10px] overflow-hidden flex-1 min-h-[230px]">
+    <section className="bg-[#151515] border border-[#2f2f2f] rounded-[10px] overflow-hidden flex-1 min-h-[100px]">
       <div className="h-11 flex items-center gap-[8px] px-3.5 border-b border-[#2a2a2a] text-[13px] font-extrabold">
         <Terminal size={18} className="text-[#148bff]" />
         LOG CONSOLE
@@ -36,7 +36,7 @@ export default function LogConsole() {
 
       <div className="h-full p-4 font-mono text-[11px] leading-[1.75] overflow-y-auto">
         {logs.length === 0 ? (
-          <div className="h-[160px] flex items-center justify-center text-[#555] text-[12px]">
+          <div className="h-[60px] flex items-center justify-center text-[#555] text-[12px]">
             No logs received yet
           </div>
         ) : (
