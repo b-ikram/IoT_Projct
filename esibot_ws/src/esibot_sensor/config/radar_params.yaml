@@ -1,7 +1,7 @@
 radar_node:
   ros__parameters:
-    frame_id: radar_link
-    topic_name: /radar/scan
+    frame_id: "radar_link"
+    topic_name: "/radar/scan"
     publish_rate: 1.0
     angle_min: -3.14159
     angle_max: 3.14159
@@ -10,17 +10,22 @@ radar_node:
     range_max: 4.0
     default_range: 2.5
     base_angle_deg: 0.0
-    servo_scan_angles_deg: [0.0, 15.0, 30.0]
+    
+    # Configuration du balayage servo modifiée pour tes arrêts
+    servo_scan_angles_deg: [0.0, 30.0, 60.0]
+    servo_gpio_pin: 18
+    servo_min_angle_deg: 0.0
+    servo_max_angle_deg: 180.0
+    servo_settle_time_sec: 0.50             # Augmenté à 0.5s selon ton script de test stable
+    
+    # Broches SIG de tes 4 capteurs Ultra V2 (Unique fil par capteur)
+    sensor_trigger_pins: [16, 20, 26, 19]
+    sensor_echo_pins: []                    # Laissé vide car non utilisé par les Ultra V2
+    
     sensor_offsets_deg: [0.0, 90.0, 180.0, 270.0]
     sensor_fov_deg: 90.0
     mark_uncovered_as_inf: true
     use_mock_data: false
-    servo_gpio_pin: 18
-    servo_min_angle_deg: 0.0
-    servo_max_angle_deg: 180.0
-    servo_settle_time_sec: 0.35
-    sensor_trigger_pins: [17, 22, 24, 5]
-    sensor_echo_pins: [27, 23, 25, 6]
     sensor_max_distance_m: 4.0
     sensor_threshold_distance_m: 4.0
     sensor_queue_len: 3

@@ -1,0 +1,25 @@
+amcl:
+  ros__parameters:
+    scan_topic: scan
+
+controller_server:
+  ros__parameters:
+    max_vel_x: 0.1
+    max_vel_theta: 0.8
+
+local_costmap:
+  local_costmap:
+    ros__parameters:
+      robot_radius: 0.12
+      inflation_radius: 0.4
+      observation_sources: scan
+      scan:
+        topic: /scan
+        marking: true
+        clearing: true
+
+global_costmap:
+  global_costmap:
+    ros__parameters:
+      robot_radius: 0.12
+      inflation_radius: 0.4

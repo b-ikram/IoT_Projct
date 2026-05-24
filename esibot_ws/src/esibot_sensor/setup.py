@@ -1,3 +1,4 @@
+
 import os
 from glob import glob
 from setuptools import setup
@@ -27,7 +28,8 @@ setup(
         'console_scripts': [
             # ICI : Créé la commande 'radar_node' pour 'ros2 run'
             'radar_node = esibot_sensor.radar_node:main',
-	    'mpu_service = esibot_sensor.mpu_node:main',
+            'scan_converter = esibot_sensor.scan_converter:main',
+	        'mpu_service = esibot_sensor.mpu_node:main',
             'odom_service = esibot_sensor.mpu_odom:main',
             'encoder_service = esibot_sensor.encoder_node:main'
         ],
