@@ -10,13 +10,37 @@ class ScanConverter(Node):
     def __init__(self):
         super().__init__('scan_converter')
 
+        self.declare_parameter('input_topic', '/radar/scan')
+        self.declare_parameter('output_topic', '/scan')
+        self.declare_parameter('frame_id', 'radar_link')
+        self.declare_parameter('angle_min_deg', 0.0)
+        self.declare_parameter('angle_max_deg', 359.0)
+        self.declare_parameter('angle_increment_deg', 1.0)
+        self.declare_parameter('range_min_m', 0.02)
+        self.declare_parameter('range_max_m', 4.0)
+        self.declare_parameter('interpolate_max_gap_deg', 120.0)
+        self.declare_parameter('fallback_servo_angles_deg', [0.0, 30.0, 60.0])
+        self.declare_parameter('fallback_sensor_offsets_deg', [0.0, 90.0, 180.0, 270.0])
+
+        self.input_topic = str(self.get_parameter('input_topic').value)
+        self.output_topic = str(self.get_parameter('output_topic').value)
+        self.frame_id = str(self.get_parameter('frame_id').value)
+        self.angle_min_deg = float(self.get_parameter('angle_min_deg').value)
+        self.angle_max_deg = float(self.get_parameter('angle_max_deg').value)
+        self.angle_increment_deg = float(self.get_parameter('angle_increment_deg').value)
+        self.range_min_m = float(self.get_parameter('range_min_m').value)
+        self.range_max_m = float(self.get_parameter('range_max_m').value)
+        self.interpolate_max_gap_deg = float(self.get_parameter('interpolate_max_gap_deg').value)
+        self.fallback_servo_angles = [float(v) for v in self.get_parameter('fallback_servo_angles_deg').value]
+        self.fallback_sensor_offsets = [float(v) for v in self.get_parameter('fallback_sensor_offsets_deg').value]
+
         self.sub = self.create_subscription(
             Float32MultiArray,
-            '/radar/scan',
+            self.input_topic,
             self.callback,
             10
         )
-        self.pub = self.create_publisher(LaserScan, '/scan', 10)
+        self.pub = self.create_publisher(LaserScan, self.output_topic, 10)
         self.get_logger().info("Converter active: Float32MultiArray -> LaserScan")
 
     @staticmethod
@@ -41,10 +65,10 @@ class ScanConverter(Node):
                 return angles, offsets
 
         self.get_logger().warn(
-            "Layout missing on /radar/scan. Using defaults [0,30,60] / [0,90,180,270].",
+            f"Layout missing on {self.input_topic}. Using defaults for angles/offsets.",
             throttle_duration_sec=30.0
         )
-        return [0.0, 30.0, 60.0], [0.0, 90.0, 180.0, 270.0]
+        return self.fallback_servo_angles, self.fallback_sensor_offsets
 
     def callback(self, msg):
         servo_angles, sensor_offsets = self._get_layout(msg)
@@ -53,19 +77,25 @@ class ScanConverter(Node):
 
         if len(msg.data) < n_angles * n_sensors:
             return
+        if self.angle_increment_deg <= 0:
+            return
+        if self.angle_max_deg <= self.angle_min_deg:
+            return
 
         laser_scan = LaserScan()
         laser_scan.header.stamp = self.get_clock().now().to_msg()
-        laser_scan.header.frame_id = 'radar_link'
+        laser_scan.header.frame_id = self.frame_id
 
-        laser_scan.angle_min = 0.0
-        laser_scan.angle_max = math.radians(359)
-        laser_scan.angle_increment = math.radians(1)
+        laser_scan.angle_min = math.radians(self.angle_min_deg)
+        laser_scan.angle_max = math.radians(self.angle_max_deg)
+        laser_scan.angle_increment = math.radians(self.angle_increment_deg)
         laser_scan.time_increment = 0.0
-        laser_scan.range_min = 0.02
-        laser_scan.range_max = 4.0
+        laser_scan.range_min = self.range_min_m
+        laser_scan.range_max = self.range_max_m
 
-        ranges = [float('inf')] * 360
+        bin_count = int(round((self.angle_max_deg - self.angle_min_deg) / self.angle_increment_deg)) + 1
+        bin_count = max(1, bin_count)
+        ranges = [float('inf')] * bin_count
         measured_points = {}
         data_idx = 0
 
@@ -79,11 +109,11 @@ class ScanConverter(Node):
 
                 dist_m = dist_cm / 100.0
                 total_angle_deg = (s_angle + offset) % 360
-                idx = int(total_angle_deg)
+                idx = int(round((total_angle_deg - self.angle_min_deg) / self.angle_increment_deg))
 
-                if 0 <= idx < 360:
+                if 0 <= idx < bin_count:
                     ranges[idx] = dist_m
-                    measured_points[idx] = dist_m
+                    measured_points[total_angle_deg] = dist_m
 
         measured_angles = sorted(measured_points.keys())
 
@@ -95,16 +125,19 @@ class ScanConverter(Node):
                 dist_b = measured_points[angle_b]
 
                 if angle_b > angle_a:
-                    steps = angle_b - angle_a
+                    gap = angle_b - angle_a
                 else:
-                    steps = (360 - angle_a) + angle_b
+                    gap = (360 - angle_a) + angle_b
 
-                if 0 < steps < 120:
+                steps = int(round(gap))
+                if 0 < steps < self.interpolate_max_gap_deg:
                     for step in range(1, steps):
                         t = step / steps
                         interp_dist = dist_a + t * (dist_b - dist_a)
                         interp_angle = (angle_a + step) % 360
-                        ranges[interp_angle] = interp_dist
+                        interp_idx = int(round((interp_angle - self.angle_min_deg) / self.angle_increment_deg))
+                        if 0 <= interp_idx < bin_count:
+                            ranges[interp_idx] = interp_dist
 
         laser_scan.ranges = ranges
         self.pub.publish(laser_scan)

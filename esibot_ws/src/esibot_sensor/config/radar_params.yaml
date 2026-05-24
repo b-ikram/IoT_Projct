@@ -1,18 +1,68 @@
 radar_node:
     ros__parameters:
+        # TF frame id used by radar_node messages
         frame_id: "radar_link"
+        # Output topic for raw radar scan (Float32MultiArray)
         topic_name: "/radar/scan"
 
-        # Servo scan angles configuration
+        # Servo angles (deg) where measurements are taken
         servo_scan_angles_deg: [0.0, 30.0, 60.0]
+        # GPIO pin (BCM) driving the servo PWM signal
         servo_gpio_pin: 18
+        # Minimum servo angle allowed (deg)
         servo_min_angle_deg: 0.0
+        # Maximum servo angle allowed (deg)
         servo_max_angle_deg: 180.0
+        # Servo PWM pulse width at min angle (microseconds)
+        servo_pwm_min_us: 1000.0
+        # Servo PWM pulse width at max angle (microseconds)
+        servo_pwm_max_us: 2000.0
+        # Servo settling time after each move (seconds)
         servo_settle_time_sec: 0.50
+        # ROS timer period for publishing packets (seconds)
+        publish_timer_sec: 0.1
+        # Trigger pulse low time for ultrasonic distance sensor V2 (seconds)
+        trigger_pulse_low_sec: 0.000002
+        # Trigger pulse high time for ultrasonic distance sensor V2 (seconds)
+        trigger_pulse_high_sec: 0.000010
+        # Echo timeout for ultrasonic reading (seconds)
+        echo_timeout_sec: 0.03
+        # Delay between reading adjacent sensors (seconds)
+        inter_sensor_delay_sec: 0.02
+        # Speed of sound used for distance calculation (cm/s)
+        speed_of_sound_cm_s: 34300.0
+        # Maximum valid distance for readings (cm)
+        max_distance_cm: 400.0
 
-        # HC-SR04 V2 sensor trigger pins (single wire per sensor)
+        # ultrasonic distance sensor V2 sig pins (BCM, single wire per sensor)
         sensor_trigger_pins: [16, 20, 26, 19]
+        # Echo pins (unused for ultrasonic distance sensor V2)
         sensor_echo_pins: []
 
-        # Sensor angular offsets (degrees) relative to servo angle
+        # Sensor angular offsets (deg) relative to servo angle
         sensor_offsets_deg: [0.0, 90.0, 180.0, 270.0]
+
+scan_converter:
+    ros__parameters:
+        # Input topic for raw radar scans (Float32MultiArray)
+        input_topic: "/radar/scan"
+        # Output topic for LaserScan
+        output_topic: "/scan"
+        # TF frame id for LaserScan
+        frame_id: "radar_link"
+        # LaserScan minimum angle (deg)
+        angle_min_deg: 0.0
+        # LaserScan maximum angle (deg)
+        angle_max_deg: 359.0
+        # LaserScan angular resolution (deg)
+        angle_increment_deg: 1.0
+        # Minimum measurable range (m)
+        range_min_m: 0.02
+        # Maximum measurable range (m)
+        range_max_m: 4.0
+        # Maximum angular gap to interpolate (deg)
+        interpolate_max_gap_deg: 120.0
+        # Fallback servo angles if layout is missing (deg)
+        fallback_servo_angles_deg: [0.0, 30.0, 60.0]
+        # Fallback sensor offsets if layout is missing (deg)
+        fallback_sensor_offsets_deg: [0.0, 90.0, 180.0, 270.0]
