@@ -10,6 +10,7 @@ def generate_launch_description():
     package_share = get_package_share_directory("esibot_sensor")
 
     params_file = os.path.join(package_share, "config", "radar_params.yaml")
+    encoder_params_file = os.path.join(package_share, "config", "encoder_params.yaml")
     slam_params_file = os.path.join(package_share, "config", "slam_params.yaml")
 
     # 1. Radar Materiel
@@ -30,7 +31,16 @@ def generate_launch_description():
         parameters=[params_file],
     )
 
-    # 3. Liaison geometrique statique
+    # 3. Encoder counts
+    encoder_node = Node(
+        package="esibot_sensor",
+        executable="encoder_service",
+        name="encoder_node",
+        output="screen",
+        parameters=[encoder_params_file],
+    )
+
+    # 4. Liaison geometrique statique
     static_tf_node = Node(
         package="tf2_ros",
         executable="static_transform_publisher",
@@ -39,7 +49,7 @@ def generate_launch_description():
         output="screen",
     )
 
-    # 4. Lecture capteur MPU6050
+    # 5. Lecture capteur MPU6050
     mpu_hardware_node = Node(
         package="esibot_sensor",
         executable="mpu_service",
@@ -47,7 +57,7 @@ def generate_launch_description():
         output="screen",
     )
 
-    # 5. Calcul odometrie MPU6050
+    # 6. Calcul odometrie MPU6050
     mpu_odom_node = Node(
         package="esibot_sensor",
         executable="odom_service",
@@ -55,7 +65,7 @@ def generate_launch_description():
         output="screen",
     )
 
-    # 6. SLAM avec config
+    # 7. SLAM avec config
     slam_toolbox_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(
@@ -74,6 +84,7 @@ def generate_launch_description():
         [
             radar_node,
             scan_converter_node,
+            encoder_node,
             static_tf_node,
             mpu_hardware_node,
             mpu_odom_node,
