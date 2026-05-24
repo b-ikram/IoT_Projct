@@ -5,9 +5,11 @@ from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 from sensor_msgs.msg import LaserScan
 
+
 class ScanConverter(Node):
     def __init__(self):
         super().__init__('scan_converter')
+
         self.sub = self.create_subscription(
             Float32MultiArray,
             '/radar/scan',
@@ -15,27 +17,55 @@ class ScanConverter(Node):
             10
         )
         self.pub = self.create_publisher(LaserScan, '/scan', 10)
-        self.get_logger().info("Convertisseur active : Float32MultiArray -> LaserScan")
+        self.get_logger().info("Converter active: Float32MultiArray -> LaserScan")
+
+    @staticmethod
+    def _parse_label_values(label: str):
+        """Parse 'angles_deg:0,30,60' -> [0.0, 30.0, 60.0]"""
+        try:
+            _, values_str = label.split(':', 1)
+            return [float(v) for v in values_str.split(',')]
+        except Exception:
+            return []
+
+    def _get_layout(self, msg):
+        """
+        Read angles and offsets from the message layout.
+        Fallback to defaults if layout is missing (backward compatibility).
+        """
+        dims = msg.layout.dim
+        if len(dims) >= 2:
+            angles = self._parse_label_values(dims[0].label)
+            offsets = self._parse_label_values(dims[1].label)
+            if len(angles) == dims[0].size and len(offsets) == dims[1].size:
+                return angles, offsets
+
+        self.get_logger().warn(
+            "Layout missing on /radar/scan. Using defaults [0,30,60] / [0,90,180,270].",
+            throttle_duration_sec=30.0
+        )
+        return [0.0, 30.0, 60.0], [0.0, 90.0, 180.0, 270.0]
 
     def callback(self, msg):
-        if len(msg.data) < 12:
+        servo_angles, sensor_offsets = self._get_layout(msg)
+        n_angles = len(servo_angles)
+        n_sensors = len(sensor_offsets)
+
+        if len(msg.data) < n_angles * n_sensors:
             return
 
         laser_scan = LaserScan()
         laser_scan.header.stamp = self.get_clock().now().to_msg()
         laser_scan.header.frame_id = 'radar_link'
-        laser_scan.angle_min = -math.pi
-        laser_scan.angle_max = math.pi
+
+        laser_scan.angle_min = 0.0
+        laser_scan.angle_max = math.radians(359)
         laser_scan.angle_increment = math.radians(1)
         laser_scan.time_increment = 0.0
         laser_scan.range_min = 0.02
         laser_scan.range_max = 4.0
 
         ranges = [float('inf')] * 360
-
-        servo_angles = [0, 30, 60]
-        sensor_offsets = [0, 90, 180, 270]
-
         measured_points = {}
         data_idx = 0
 
@@ -69,7 +99,7 @@ class ScanConverter(Node):
                 else:
                     steps = (360 - angle_a) + angle_b
 
-                if steps > 0 and steps < 120:
+                if 0 < steps < 120:
                     for step in range(1, steps):
                         t = step / steps
                         interp_dist = dist_a + t * (dist_b - dist_a)
@@ -89,6 +119,7 @@ def main(args=None):
         pass
     node.destroy_node()
     rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()
