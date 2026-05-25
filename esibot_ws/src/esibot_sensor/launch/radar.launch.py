@@ -11,6 +11,8 @@ def generate_launch_description():
 
     params_file = os.path.join(package_share, "config", "radar_params.yaml")
     encoder_params_file = os.path.join(package_share, "config", "encoder_params.yaml")
+    mpu_params_file = os.path.join(package_share, "config", "mpu_params.yaml")
+    mpu_odom_params_file = os.path.join(package_share, "config", "mpu_odom_params.yaml")
     slam_params_file = os.path.join(package_share, "config", "slam_params.yaml")
 
     # 1. Radar Materiel
@@ -55,14 +57,16 @@ def generate_launch_description():
         executable="mpu_service",
         name="mpu_node",
         output="screen",
+        parameters=[mpu_params_file],
     )
 
     # 6. Calcul odometrie MPU6050
     mpu_odom_node = Node(
         package="esibot_sensor",
-        executable="odom_service",
+        executable="mpu_odom",
         name="mpu_odom_node",
         output="screen",
+        parameters=[mpu_odom_params_file],
     )
 
     # 7. SLAM avec config
