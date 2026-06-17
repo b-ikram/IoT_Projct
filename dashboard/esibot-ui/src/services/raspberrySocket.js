@@ -1,9 +1,4 @@
 
-
-
-
-
-
 let socket = null;
 const listeners = {};
 const statusCallbacks = [];

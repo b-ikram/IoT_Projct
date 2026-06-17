@@ -1,53 +1,116 @@
-import {
-  Bot,
-  Home,
-  Settings,
-  Battery,
-} from "lucide-react";
+import { Bot, Home, Settings, Battery } from "lucide-react";
 import { useEffect, useState } from "react";
 import * as ROSLIB from "roslib";
 import { ros } from "../services/ros";
 
+const WATCHED_NODES = [
+  "esibot_driver",
+  "esircam_node",
+  "camera_node",
+  "radar_node",
+  "scan_converter",
+  "slam_toolbox",
+  "mpu_sensor_node",
+  "mpu_odom_node",
+];
+
 export default function Sidebar({ page, setPage }) {
   const [level, setLevel] = useState(70);
   const [voltage, setVoltage] = useState(11.1);
-  const [nodes, setNodes] = useState([
-    { name: "esibot_driver", error: false },
-    { name: "esircam_node", error: false },
-  ]);
+  const [nodes, setNodes] = useState(
+    WATCHED_NODES.map((name) => ({
+      name,
+      online: false,
+      status: "OFFLINE",
+    }))
+  );
 
   useEffect(() => {
-    // Battery
-    try {
-      const batteryTopic = new ROSLIB.Topic({
-        ros,
-        name: "/battery_state",
-        messageType: "sensor_msgs/BatteryState",
-      });
-      batteryTopic.subscribe((msg) => {
-        setLevel(Math.round(msg.percentage * 100));
-        setVoltage(msg.voltage.toFixed(1));
-      });
-      return () => batteryTopic.unsubscribe();
-    } catch (e) {
-      console.warn("Battery topic non disponible", e);
-    }
+    const batteryTopic = new ROSLIB.Topic({
+      ros,
+      name: "/battery_state",
+      messageType: "sensor_msgs/BatteryState",
+    });
+
+    batteryTopic.subscribe((msg) => {
+      setLevel(Math.round(msg.percentage * 100));
+      setVoltage(Number(msg.voltage).toFixed(1));
+    });
+
+    return () => batteryTopic.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const nodesService = new ROSLIB.Service({
+      ros,
+      name: "/rosapi/nodes",
+      serviceType: "rosapi_msgs/srv/Nodes",
+    });
+
+    const checkNodes = () => {
+      nodesService.callService(
+        {},
+        (result) => {
+          const activeNodes = result.nodes || [];
+
+          setNodes(
+            WATCHED_NODES.map((name) => {
+              const isOnline = activeNodes.some(
+                (nodeName) =>
+                  nodeName === `/${name}` ||
+                  nodeName === name ||
+                  nodeName.includes(name)
+              );
+
+              return {
+                name,
+                online: isOnline,
+                status: isOnline ? "ACTIVE" : "OFFLINE",
+              };
+            })
+          );
+        },
+        () => {
+          setNodes(
+            WATCHED_NODES.map((name) => ({
+              name,
+              online: false,
+              status: "OFFLINE",
+            }))
+          );
+        }
+      );
+    };
+
+    checkNodes();
+    const interval = setInterval(checkNodes, 2000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const batteryColor =
-    level > 70 ? "text-[#50e38b]" : level > 30 ? "text-[#ffa927]" : "text-[#ff5050]";
+    level > 70
+      ? "text-[#50e38b]"
+      : level > 30
+      ? "text-[#ffa927]"
+      : "text-[#ff5050]";
+
   const batteryBg =
-    level > 70 ? "bg-[#50e38b]" : level > 30 ? "bg-[#ffa927]" : "bg-[#ff5050]";
-  const batteryHealth =
-    level > 70 ? "OK" : level > 30 ? "Low" : "Critical";
+    level > 70
+      ? "bg-[#50e38b]"
+      : level > 30
+      ? "bg-[#ffa927]"
+      : "bg-[#ff5050]";
+
+  const batteryHealth = level > 70 ? "OK" : level > 30 ? "Low" : "Critical";
 
   return (
     <aside className="h-full w-full bg-[#1E1E1E] border-r border-[#303030] px-[14px] py-[14px] flex flex-col text-white overflow-y-auto overflow-x-hidden">
-      {/* HEADER */}
       <div className="flex items-center gap-[12px] px-[6px]">
         <div className="w-[38px] h-[38px] rounded-[10px] bg-gradient-to-br from-[#0b74ff] to-[#159bff] grid place-items-center shadow-[0_8px_20px_rgba(20,139,255,.35)]">
           <Bot size={22} strokeWidth={2.5} />
         </div>
+
         <div>
           <h1 className="text-[22px] mb-[0px] font-extrabold leading-[17px] tracking-[-0.4px]">
             EsiBot
@@ -58,7 +121,6 @@ export default function Sidebar({ page, setPage }) {
         </div>
       </div>
 
-      {/* NAV */}
       <nav className="mt-[20px] flex flex-col gap-[8px]">
         <NavButton
           active={page === "dashboard"}
@@ -67,6 +129,7 @@ export default function Sidebar({ page, setPage }) {
         >
           Dashboard
         </NavButton>
+
         <NavButton
           active={page === "settings"}
           onClick={() => setPage("settings")}
@@ -76,7 +139,6 @@ export default function Sidebar({ page, setPage }) {
         </NavButton>
       </nav>
 
-      {/* POWER */}
       <div className="mt-[20px] rounded-[10px] bg-[#2c2c2c] border border-[#383838] px-[12px] py-[12px]">
         <div className="flex items-center justify-between">
           <h3 className="text-[10px] text-[#a7a7a7] tracking-[1.2px] font-extrabold">
@@ -109,14 +171,20 @@ export default function Sidebar({ page, setPage }) {
         </div>
       </div>
 
-      {/* NODE HEALTH */}
       <div className="mt-[14px] rounded-[12px] bg-[#2c2c2c] border border-[#383838] px-[14px] py-[14px]">
         <h3 className="text-[11px] text-[#a7a7a7] tracking-[1.3px] font-extrabold mb-[10px]">
           NODE HEALTH
         </h3>
+
         <div className="flex flex-col gap-[8px]">
-          <Node name="esibot_driver" time="2ms" />
-          <Node name="esircam_node" time="2ms" />
+          {nodes.map((node) => (
+            <Node
+              key={node.name}
+              name={node.name}
+              status={node.status}
+              error={!node.online}
+            />
+          ))}
         </div>
       </div>
     </aside>
@@ -125,7 +193,10 @@ export default function Sidebar({ page, setPage }) {
 
 function NavButton({ active, icon, children, onClick }) {
   return (
-    <button onClick={onClick} className={`nav-btn ${active ? "nav-btn-active" : ""}`}>
+    <button
+      onClick={onClick}
+      className={`nav-btn ${active ? "nav-btn-active" : ""}`}
+    >
       <span className="nav-icon">{icon}</span>
       <span>{children}</span>
     </button>
@@ -149,15 +220,35 @@ function SmallBox({ label, value, green, warning, error }) {
   );
 }
 
-function Node({ name, time, error }) {
+function Node({ name, status, error }) {
   return (
     <div className="grid grid-cols-[16px_1fr_auto] items-center gap-[10px]">
       <span className="relative flex h-[16px] w-[16px] items-center justify-center">
-        <span className={`absolute h-[14px] w-[14px] rounded-full blur-[5px] opacity-40 ${error ? "bg-[#ff5050]" : "bg-[#50e38b]"}`} />
-        <span className={`relative h-[7px] w-[7px] rounded-full shadow-[0_0_8px_currentColor] ${error ? "bg-[#ff5050] text-[#ff5050]" : "bg-[#50e38b] text-[#50e38b]"}`} />
+        <span
+          className={`absolute h-[14px] w-[14px] rounded-full blur-[5px] opacity-40 ${
+            error ? "bg-[#ff5050]" : "bg-[#50e38b]"
+          }`}
+        />
+        <span
+          className={`relative h-[7px] w-[7px] rounded-full shadow-[0_0_8px_currentColor] ${
+            error
+              ? "bg-[#ff5050] text-[#ff5050]"
+              : "bg-[#50e38b] text-[#50e38b]"
+          }`}
+        />
       </span>
-      <span className="text-[11px] leading-none text-[#d7d7d7]">{name}</span>
-      <span className={`text-[10px] leading-none ${error ? "text-[#ff5050]" : "text-[#9b9b9b]"}`}>{time}</span>
+
+      <span className="text-[11px] leading-none text-[#d7d7d7] truncate">
+        {name}
+      </span>
+
+      <span
+        className={`text-[10px] leading-none font-bold ${
+          error ? "text-[#ff5050]" : "text-[#50e38b]"
+        }`}
+      >
+        {status}
+      </span>
     </div>
   );
 }
