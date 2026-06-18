@@ -48,15 +48,15 @@ export default function MapPanel() {
         (robotPosRef.current.y - info.origin.position.y) / info.resolution;
 
       ctx.beginPath();
-      ctx.arc(rx, ry, 2.5, 0, 2 * Math.PI);
+      ctx.arc(rx, ry, 8, 0, 2 * Math.PI);
       ctx.fillStyle = "#ff3b30";
       ctx.fill();
 
       ctx.beginPath();
       ctx.moveTo(rx, ry);
       ctx.lineTo(
-        rx + Math.cos((robotPosRef.current.yaw * Math.PI) / 180) * 7,
-        ry - Math.sin((robotPosRef.current.yaw * Math.PI) / 180) * 7
+        rx + Math.cos((robotPosRef.current.yaw * Math.PI) / 180) * 20,
+        ry - Math.sin((robotPosRef.current.yaw * Math.PI) / 180) * 20
       );
       ctx.strokeStyle = "#ff3b30";
       ctx.lineWidth = 1;
@@ -174,8 +174,8 @@ body{
 
 #map-canvas{
   image-rendering:pixelated;
-  width:70%;
-  height:70%;
+  width:100%;
+  height:100%;
   object-fit:contain;
 }
 
@@ -370,8 +370,8 @@ new ROSLIB.Topic({
           ref={canvasRef}
           style={{
   imageRendering: "pixelated",
-  width: "85%",
-  height: "85%",
+  width: "100%",
+  height: "100%",
   objectFit: "contain",
   display: mapReceived ? "block" : "none",
 }}
