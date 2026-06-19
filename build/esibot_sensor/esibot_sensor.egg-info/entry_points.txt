@@ -1,6 +1,8 @@
 [console_scripts]
+encoder_odom = esibot_sensor.encoder_odom:main
 encoder_service = esibot_sensor.encoder_node:main
+mpu_odom = esibot_sensor.mpu_odom:main
 mpu_service = esibot_sensor.mpu_node:main
-odom_service = esibot_sensor.mpu_odom:main
 radar_node = esibot_sensor.radar_node:main
+scan_converter = esibot_sensor.scan_converter:main
 

@@ -1,0 +1,22 @@
+mpu_node:
+    ros__parameters:
+        # Output topic for IMU data
+        imu_topic: "/esibot/imu"
+        # Frame id for IMU messages
+        frame_id: "imu_link"
+        # Publish rate for IMU data (Hz)
+        publish_rate_hz: 20.0
+        # Mock yaw rate amplitude (deg/s)
+        mock_yaw_rate_deg_s: 5.0
+        # Mock yaw rate frequency (Hz)
+        mock_yaw_rate_hz: 0.3
+        # Mock linear acceleration amplitude (m/s^2)
+        mock_linear_accel_mps2: 0.1
+        # Mock linear acceleration frequency (Hz)
+        mock_linear_accel_hz: 0.5
+        # Real MPU smoothing factor (used when hardware code is enabled)
+        alpha: 0.2
+        # Ignore rotations below this value (deg/s) for the real MPU
+        deadzone_deg_s: 0.5
+        # I2C address for the real MPU (0x68)
+        i2c_address: 104

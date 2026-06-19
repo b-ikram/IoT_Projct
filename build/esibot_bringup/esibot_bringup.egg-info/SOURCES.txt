@@ -8,9 +8,14 @@ setup.py
 ../../build/esibot_bringup/esibot_bringup.egg-info/requires.txt
 ../../build/esibot_bringup/esibot_bringup.egg-info/top_level.txt
 ../../build/esibot_bringup/esibot_bringup.egg-info/zip-safe
+config/ekf.yaml
+config/nav2_params.yaml
 esibot_bringup/__init__.py
 esibot_bringup/esibot_driver.py
-esibot_bringup/odometry_utils.py
-esibot_bringup/serial_interface.py
+launch/autonomous_navigation.launch.py
 launch/esibot_driver.launch.py
+launch/esibot_ekf.launch.py
+launch/nav2.launch.py
+maps/mockup_50cm.pgm
+maps/mockup_50cm.yaml
 resource/esibot_bringup

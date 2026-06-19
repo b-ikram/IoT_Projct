@@ -1,0 +1,20 @@
+encoder_node:
+    ros__parameters:
+        # GPIO pin (BCM) for left encoder input
+        left_pin: 5
+        # GPIO pin (BCM) for right encoder input
+        right_pin: 6
+        # Output topic for left encoder counts
+        left_topic: "esibot/encoders/left"
+        # Output topic for right encoder counts
+        right_topic: "esibot/encoders/right"
+        # Publish rate for encoder counts (Hz)
+        publish_rate_hz: 20.0
+        # Use pull-up (true) or pull-down (false) resistor
+        pull_up: true
+        # ROS publisher queue size
+        queue_size: 10
+        # Edge detection mode: both|rising|falling
+        edge_type: "both"
+        # Optional debounce time for GPIO edges (ms); 0 disables
+        bouncetime_ms: 0.0

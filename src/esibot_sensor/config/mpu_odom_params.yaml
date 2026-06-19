@@ -1,0 +1,16 @@
+mpu_odom_node:
+    ros__parameters:
+        # Input topic for IMU data
+        imu_topic: "/esibot/imu"
+        # Output topic for IMU-based odometry
+        odom_topic: "/imu/odom"
+        # Odometry frame id
+        frame_id: "odom"
+        # Base frame id
+        child_frame_id: "base_footprint"
+        # Publish TF odom -> base_footprint
+        publish_tf: false
+        # Assumed forward speed for the mock integration (m/s)
+        linear_speed_mps: 0.1
+        # Ignore gyro Z below this threshold (rad/s)
+        min_gyro_z: 0.01

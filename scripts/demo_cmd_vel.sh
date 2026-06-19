@@ -6,20 +6,20 @@ set -euo pipefail
 
 echo "[demo] Forward"
 ros2 topic pub --once /cmd_vel geometry_msgs/Twist "{linear: {x: 0.2}, angular: {z: 0.0}}"
-sleep 2
+sleep 1
 
 echo "[demo] Backward"
 ros2 topic pub --once /cmd_vel geometry_msgs/Twist "{linear: {x: -0.2}, angular: {z: 0.0}}"
-sleep 2
+sleep 1
 
 echo "[demo] Rotate right"
 ros2 topic pub --once /cmd_vel geometry_msgs/Twist "{linear: {x: 0.0}, angular: {z: -0.3}}"
-sleep 2
+sleep 1
 
 
 echo "[demo] Rotate left"
 ros2 topic pub --once /cmd_vel geometry_msgs/Twist "{linear: {x: 0.0}, angular: {z: 0.3}}"
-sleep 2
+sleep 1
 
 
 echo "[demo] Stop"

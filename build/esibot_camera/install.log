@@ -5,6 +5,8 @@
 /home/user/esibot_ws/install/esibot_camera/share/ament_index/resource_index/packages/esibot_camera
 /home/user/esibot_ws/install/esibot_camera/share/esibot_camera/package.xml
 /home/user/esibot_ws/install/esibot_camera/share/esibot_camera/launch/esibot_camera.launch.py
+/home/user/esibot_ws/install/esibot_camera/share/esibot_camera/launch/raspicam.launch.py
+/home/user/esibot_ws/install/esibot_camera/share/esibot_camera/config/raspicam_params.yaml
 /home/user/esibot_ws/install/esibot_camera/share/esibot_camera/config/camera_params.yaml
 /home/user/esibot_ws/install/esibot_camera/lib/python3.10/site-packages/esibot_camera-0.1.0-py3.10.egg-info/PKG-INFO
 /home/user/esibot_ws/install/esibot_camera/lib/python3.10/site-packages/esibot_camera-0.1.0-py3.10.egg-info/top_level.txt

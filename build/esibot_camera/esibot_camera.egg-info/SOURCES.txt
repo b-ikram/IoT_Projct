@@ -9,7 +9,9 @@ setup.py
 ../../build/esibot_camera/esibot_camera.egg-info/top_level.txt
 ../../build/esibot_camera/esibot_camera.egg-info/zip-safe
 config/camera_params.yaml
+config/raspicam_params.yaml
 esibot_camera/__init__.py
 esibot_camera/esircam_node.py
 launch/esibot_camera.launch.py
+launch/raspicam.launch.py
 resource/esibot_camera

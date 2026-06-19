@@ -1,0 +1,17 @@
+slam_toolbox:
+  ros__parameters:
+    map_update_interval: 1.0
+    resolution: 0.02
+    max_laser_range: 4.0
+    minimum_travel_distance: 0.1
+    minimum_travel_heading: 0.1
+    scan_topic: /scan
+    mode: mapping
+    debug_logging: false
+    throttle_scans: 1
+    transform_publish_period: 0.02
+    use_multithread: true
+    odom_frame: odom
+    base_frame: base_footprint
+    map_frame: map
+    laser_frame: radar_link

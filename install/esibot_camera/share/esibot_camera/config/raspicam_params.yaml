@@ -1,0 +1,6 @@
+camera_node:
+  ros__parameters:
+    width: 640
+    height: 480
+    FrameDurationLimits: [33333, 33333]  # 30fps
+    format: "BGR888"
