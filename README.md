@@ -5,9 +5,9 @@ Monorepo for ESIBOT ROS2 packages (bringup, sensors, camera) under one workspace
 ## Repository layout
 - `esibot_ws/`: ROS2 workspace root
 - `esibot_ws/src/esibot_bringup/`: robot driver, odometry, battery publishing
-- `esibot_ws/src/esibot_sensors/`: radar node and RViz launch/config
-- `esibot_ws/src/esibot_camera/`: ESP32-CAM MJPEG bridge
-- `esibot_ws/src/esibot_description/`: placeholder/incomplete package directory
+- `esibot_ws/src/esibot_sensor/`: ultrasonic radar node, IMU/encoder nodes, and RViz launch/config
+- `esibot_ws/src/esibot_camera/`: Raspberry Pi camera ROS2 bridge
+- `esibot_ws/src/esibot_description/`: ESIBOT URDF/Xacro model and robot-state-publisher launch
 - `esibot_ws/src/esibot_ui/`: placeholder/incomplete package directory
 - `esibot_ws/src/esibot_vision/`: placeholder/incomplete package directory
 
