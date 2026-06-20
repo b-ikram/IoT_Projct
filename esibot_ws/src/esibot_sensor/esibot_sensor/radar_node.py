@@ -17,8 +17,8 @@ class RadarNode(Node):
         # PARAMETERS & ROS 2
         # -----------------------
         self.declare_parameter('topic_name', '/radar/scan')
-        self.declare_parameter('servo_gpio_pin', 18)
-        self.declare_parameter('sensor_trigger_pins', [16, 20, 26, 24])
+        self.declare_parameter('servo_gpio_pin', 24)
+        self.declare_parameter('sensor_trigger_pins', [16, 20, 26, 19])
         self.declare_parameter('sensor_offsets_deg', [0.0, 90.0, 180.0, 270.0])
         self.declare_parameter('servo_scan_angles_deg', [0.0, 30.0, 60.0])
         self.declare_parameter('servo_settle_time_sec', 0.50)
@@ -84,6 +84,8 @@ class RadarNode(Node):
         if not self.pi.connected:
             self.get_logger().error("Unable to connect to pigpio daemon. Run 'sudo pigpiod'.")
             raise RuntimeError("pigpiod not started")
+
+        self.pi.set_mode(self.SERVO_PIN, pigpio.OUTPUT)
 
         for pin in self.SENSORS:
             self.pi.set_mode(pin, pigpio.OUTPUT)

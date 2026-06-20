@@ -8,7 +8,7 @@ radar_node:
         # Servo angles (deg) where measurements are taken
         servo_scan_angles_deg: [0.0, 30.0, 60.0]
         # GPIO pin (BCM) driving the servo PWM signal
-        servo_gpio_pin: 18
+        servo_gpio_pin: 24
         # Minimum servo angle allowed (deg)
         servo_min_angle_deg: 0.0
         # Maximum servo angle allowed (deg)

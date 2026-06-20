@@ -1,0 +1,18 @@
+imu_node:
+    ros__parameters:
+        # Output topic for raw IMU data
+        topic: "/imu/data"
+        # TF frame attached to the IMU
+        frame_id: "imu_link"
+        # Publish rate (Hz)
+        publish_rate_hz: 50.0
+        # Low-pass filter smoothing factor (0–1, lower = smoother)
+        alpha: 0.2
+        # Ignore gyro rotations below this threshold (deg/s)
+        deadzone_deg_s: 0.5
+        # MPU6050 I2C address (0x68 = 104)
+        i2c_address: 104
+        # Gyro covariance diagonal (rad²/s²)
+        gyro_covariance: 0.001
+        # Accelerometer covariance diagonal (m²/s⁴)
+        accel_covariance: 0.1
