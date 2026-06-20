@@ -13,68 +13,77 @@ export default function CameraView() {
   const topicName = mode === "cv" ? CV_TOPIC : RAW_TOPIC;
   const cameraConnected = imageSrc !== null;
 
-useEffect(() => {
-  setImageSrc(null);
+  useEffect(() => {
+    setImageSrc(null);
 
-  const topic = new ROSLIB.Topic({
-    ros,
-    name: topicName,
-    messageType: "sensor_msgs/CompressedImage",
-    queue_length: 1,
-    throttle_rate: 150,
-    compression: "none",
-  });
+    const topic = new ROSLIB.Topic({
+      ros,
+      name: topicName,
+      messageType: "sensor_msgs/CompressedImage",
+      queue_length: 1,
+      throttle_rate: 150,
+      compression: "none",
+    });
 
-  let lastUpdate = 0;
-  let latestImage = null;
-  let rafId = null;
+    let lastUpdate = 0;
+    let latestImage = null;
+    let rafId = null;
 
-  const renderLatest = () => {
-    if (latestImage) {
-      setImageSrc(latestImage);
-      latestImage = null;
-    }
-    rafId = null;
-  };
+    const renderLatest = () => {
+      if (latestImage) {
+        setImageSrc(latestImage);
+        latestImage = null;
+      }
+      rafId = null;
+    };
 
-  topic.subscribe((msg) => {
-    const now = Date.now();
+    topic.subscribe((msg) => {
+      const now = Date.now();
 
-    if (now - lastUpdate < 150) return;
-    lastUpdate = now;
+      if (now - lastUpdate < 150) return;
+      lastUpdate = now;
 
-    latestImage = `data:image/jpeg;base64,${msg.data}`;
+      latestImage = `data:image/jpeg;base64,${msg.data}`;
 
-    if (!rafId) {
-      rafId = requestAnimationFrame(renderLatest);
-    }
-  });
+      if (!rafId) {
+        rafId = requestAnimationFrame(renderLatest);
+      }
+    });
 
-  return () => {
-    topic.unsubscribe();
+    return () => {
+      topic.unsubscribe();
 
-    if (rafId) {
-      cancelAnimationFrame(rafId);
-    }
-  };
-}, [topicName]);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+    };
+  }, [topicName]);
+
   return (
     <section>
-      {/* HEADER */}
-      <div className="flex items-center justify-between mb-4 gap-3">
-        <h2 className="flex items-center gap-3 text-[15px] font-bold text-white">
-          <Video size={18} className="text-[#148bff]" />
-          {mode === "cv" ? "Computer Vision Camera" : "Raw Camera Stream"}
+      <div className="flex items-center justify-between gap-8 mb-6">
+        <h2 className="flex items-center text-[15px] font-bold">
+          <span className="inline-flex w-[34px] min-w-[34px] justify-center">
+            <Video
+              size={20}
+              strokeWidth={2.5}
+              className="text-[#148bff]"
+            />
+          </span>
+
+          <span className="pl-[8px]">
+            {mode === "cv" ? "Computer Vision Camera" : "Raw Camera Stream"}
+          </span>
         </h2>
 
-        <div className="flex items-center gap-3">
-          <div className="flex items-center bg-[#0f172a] border border-[#263146] rounded-[12px] p-1">
+        <div className="flex items-center gap-[22px]">
+          <div className="flex items-center gap-2 rounded-[16px] bg-[#111] border border-[#2a2a2a] p-[4px]">
             <button
               onClick={() => setMode("raw")}
-              className={`px-4 py-2 rounded-[10px] text-[12px] font-semibold transition-all duration-200 ${
+              className={`px-4 py-[5px] rounded-[12px] text-[12px] font-semibold transition-all duration-200 ${
                 mode === "raw"
-                  ? "bg-[#148bff] text-white shadow-md"
-                  : "text-[#cbd5e1] hover:text-white"
+                  ? "bg-[#148bff] text-black shadow-md"
+                  : "bg-white text-black hover:bg-[#e8e8e8]"
               }`}
             >
               Stream
@@ -82,10 +91,10 @@ useEffect(() => {
 
             <button
               onClick={() => setMode("cv")}
-              className={`px-4 py-2 rounded-[10px] text-[12px] font-semibold transition-all duration-200 ${
+              className={`px-4 py-[5px] rounded-[12px] text-[12px] font-semibold transition-all duration-200 ${
                 mode === "cv"
-                  ? "bg-[#148bff] text-white shadow-md"
-                  : "text-[#cbd5e1] hover:text-white"
+                  ? "bg-[#148bff] text-black shadow-md"
+                  : "bg-white text-black hover:bg-[#e8e8e8]"
               }`}
             >
               Vision
@@ -93,7 +102,7 @@ useEffect(() => {
           </div>
 
           <div
-            className={`px-4 py-2 rounded-[12px] border text-[11px] font-bold ${
+            className={`px-4 py-[5px] rounded-[14px] border text-[11px] font-bold whitespace-nowrap ${
               cameraConnected
                 ? "bg-[#052e16] border-[#22c55e] text-[#86efac]"
                 : "bg-[#2a1405] border-[#f97316] text-[#fdba74]"
@@ -104,7 +113,6 @@ useEffect(() => {
         </div>
       </div>
 
-      {/* VIDEO */}
       <div className="h-[500px] rounded-[14px] overflow-hidden border border-[#263146] bg-[#050505] flex items-center justify-center shadow-lg">
         {cameraConnected ? (
           <img

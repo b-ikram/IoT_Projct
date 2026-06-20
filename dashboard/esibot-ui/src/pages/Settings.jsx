@@ -8,10 +8,10 @@ export default function Settings() {
     <div className="h-full bg-[#101010] text-white p-[22px] flex flex-col gap-[18px] overflow-auto">
       <SettingsHeader />
 
-      <div className="grid grid-cols-2 gap-[18px]">
-        <NetworkSettingsCard />
-        <SystemOperationsCard />
-      </div>
+    <div className="grid grid-cols-2 max-md:grid-cols-1 gap-[18px]">
+  <NetworkSettingsCard />
+  <SystemOperationsCard />
+</div>
 
       <CommandConsoleCard />
     </div>

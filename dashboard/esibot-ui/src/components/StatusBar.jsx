@@ -30,7 +30,7 @@ export default function StatusBar() {
       <div className="flex items-center gap-[20px] flex-1">
         <Stat label="CPU LOAD" value={cpu} />
         <Divider />
-        <Stat label="MEMORY" value={memory} />
+        <Stat label="RAM USAGE" value={memory} />
       </div>
     </div>
   );
