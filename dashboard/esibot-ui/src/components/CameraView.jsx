@@ -4,7 +4,7 @@ import * as ROSLIB from "roslib";
 import { ros } from "../services/ros";
 
 const RAW_TOPIC = "/camera_node/image_raw/compressed";
-const CV_TOPIC = "/camera/image_annotated";
+const CV_TOPIC = "/camera/image_annotated/compressed";
 
 export default function CameraView() {
   const [mode, setMode] = useState("raw");

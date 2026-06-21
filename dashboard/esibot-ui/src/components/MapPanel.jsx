@@ -9,7 +9,7 @@ const goalTopic = new ROSLIB.Topic({
   messageType: "geometry_msgs/PoseStamped",
 });
 
-export default function MapPanel() {
+export default function MapPanel({ isAdmin }) {
   const canvasRef = useRef(null);
   const mapInfoRef = useRef(null);
   const mapDataRef = useRef(null);
@@ -31,7 +31,7 @@ export default function MapPanel() {
       if (!canvas || !mapData || !info) return;
 
       canvas.width = mapData.width;
-      canvas.height = mapData.height;
+      canvas.height = info.height;
 
       const ctx = canvas.getContext("2d");
       ctx.imageSmoothingEnabled = false;
@@ -46,13 +46,13 @@ export default function MapPanel() {
         else if (val === 0) ctx.fillStyle = "#f8fafc";
         else ctx.fillStyle = "#148bff";
 
-        ctx.fillRect(x, mapData.height - y - 1, 1, 1);
+        ctx.fillRect(x, info.height - y - 1, 1, 1);
       }
 
       const rx =
         (robotPosRef.current.x - info.origin.position.x) / info.resolution;
       const ry =
-        mapData.height -
+        info.height -
         (robotPosRef.current.y - info.origin.position.y) / info.resolution;
 
       ctx.beginPath();
@@ -70,11 +70,11 @@ export default function MapPanel() {
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      if (targetRef.current) {
+      if (isAdmin && targetRef.current) {
         const tx =
           (targetRef.current.x - info.origin.position.x) / info.resolution;
         const ty =
-          mapData.height -
+          info.height -
           (targetRef.current.y - info.origin.position.y) / info.resolution;
 
         ctx.beginPath();
@@ -97,7 +97,7 @@ export default function MapPanel() {
 
     const mapTopic = new ROSLIB.Topic({
       ros,
-      name: "/map",
+      name: "/map_web",
       messageType: "nav_msgs/OccupancyGrid",
       throttle_rate: 500,
       queue_length: 1,
@@ -117,7 +117,7 @@ export default function MapPanel() {
 
     const odomTopic = new ROSLIB.Topic({
       ros,
-      name: "/odom",
+      name: "/odometry/filtered",
       messageType: "nav_msgs/Odometry",
       throttle_rate: 200,
       queue_length: 1,
@@ -145,9 +145,9 @@ export default function MapPanel() {
       mapTopic.unsubscribe();
       odomTopic.unsubscribe();
     };
-  }, []);
+  }, [isAdmin]);
 
-  const getWorldPointFromCanvasClick = (event, canvas, info, mapData) => {
+  const getWorldPointFromCanvasClick = (event, canvas, info) => {
     const rect = canvas.getBoundingClientRect();
 
     const canvasRatio = canvas.width / canvas.height;
@@ -185,18 +185,20 @@ export default function MapPanel() {
 
     return {
       x: pixelX * info.resolution + info.origin.position.x,
-      y: (mapData.height - pixelY) * info.resolution + info.origin.position.y,
+      y: (info.height - pixelY) * info.resolution + info.origin.position.y,
     };
   };
 
   const handleCanvasClick = (event) => {
+    if (!isAdmin) return;
+
     const canvas = canvasRef.current;
     const info = mapInfoRef.current;
     const mapData = mapDataRef.current;
 
     if (!canvas || !info || !mapData) return;
 
-    const newTarget = getWorldPointFromCanvasClick(event, canvas, info, mapData);
+    const newTarget = getWorldPointFromCanvasClick(event, canvas, info);
 
     if (!newTarget) return;
 
@@ -207,7 +209,7 @@ export default function MapPanel() {
   };
 
   const publishGoal = (goal) => {
-    if (!goal) return;
+    if (!goal || !isAdmin) return;
 
     goalTopic.publish({
       header: {
@@ -242,6 +244,62 @@ export default function MapPanel() {
   const handleExpand = () => {
     const win = window.open("", "_blank", "width=1200,height=800");
 
+    const adminPanelHtml = isAdmin
+      ? `
+    <div>
+      <div class="panel-title">Navigation Target</div>
+      <div class="panel-sub">Click on the SLAM map to select a goal, then send it to ROS2 navigation.</div>
+    </div>
+
+    <div class="pos-row">
+      <div class="pos-box"><span class="pos-label">TARGET X</span><strong id="target-x" class="pos-value">--</strong></div>
+      <div class="pos-box"><span class="pos-label">TARGET Y</span><strong id="target-y" class="pos-value">--</strong></div>
+    </div>
+
+    <div class="btn-row">
+      <button id="send" disabled>SEND GOAL</button>
+      <button id="clear">CLEAR</button>
+    </div>
+    `
+      : "";
+
+    const adminScript = isAdmin
+      ? `
+canvas.addEventListener('click', function(event){
+  var point = getWorldPoint(event);
+  if (!point) return;
+
+  target = point;
+
+  document.getElementById('target-x').textContent = target.x.toFixed(2) + 'm';
+  document.getElementById('target-y').textContent = target.y.toFixed(2) + 'm';
+  document.getElementById('send').disabled = false;
+
+  requestAnimationFrame(drawMap);
+});
+
+document.getElementById('clear').addEventListener('click', function(){
+  target = null;
+  document.getElementById('target-x').textContent = '--';
+  document.getElementById('target-y').textContent = '--';
+  document.getElementById('send').disabled = true;
+  requestAnimationFrame(drawMap);
+});
+
+document.getElementById('send').addEventListener('click', function(){
+  if (!target) return;
+
+  goalTopic.publish({
+    header: { frame_id: 'map' },
+    pose: {
+      position: { x: target.x, y: target.y, z: 0.0 },
+      orientation: { x: 0.0, y: 0.0, z: 0.0, w: 1.0 }
+    }
+  });
+});
+`
+      : "";
+
     win.document.write(`<!DOCTYPE html>
 <html>
 <head>
@@ -253,7 +311,7 @@ body{background:#101010;color:white;font-family:sans-serif;overflow:hidden;}
 #header h1{font-size:26px;font-weight:900;}
 #layout{width:100vw;height:calc(100vh - 76px);display:grid;grid-template-columns:1fr 300px;gap:16px;padding:18px;background:#101010;}
 #map-wrapper{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#0b0b0b;border:1px solid #222;border-radius:18px;overflow:hidden;}
-#map-canvas{image-rendering:pixelated;width:100%;height:100%;object-fit:contain;cursor:crosshair;}
+#map-canvas{image-rendering:pixelated;width:100%;height:100%;object-fit:contain;cursor:${isAdmin ? "crosshair" : "default"};}
 #side{background:#171717;border:1px solid #2a2a2a;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:14px;}
 .pos-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .pos-box{background:#111;border:1px solid #252525;padding:10px 12px;border-radius:10px;}
@@ -297,20 +355,7 @@ button{height:36px;border-radius:9px;border:none;font-size:11px;font-weight:900;
       </div>
     </div>
 
-    <div>
-      <div class="panel-title">Navigation Target</div>
-      <div class="panel-sub">Click on the SLAM map to select a goal, then send it to ROS2 navigation.</div>
-    </div>
-
-    <div class="pos-row">
-      <div class="pos-box"><span class="pos-label">TARGET X</span><strong id="target-x" class="pos-value">--</strong></div>
-      <div class="pos-box"><span class="pos-label">TARGET Y</span><strong id="target-y" class="pos-value">--</strong></div>
-    </div>
-
-    <div class="btn-row">
-      <button id="send" disabled>SEND GOAL</button>
-      <button id="clear">CLEAR</button>
-    </div>
+    ${adminPanelHtml}
   </div>
 </div>
 
@@ -440,46 +485,15 @@ function getWorldPoint(event) {
 
   return {
     x: pixelX * mapInfo.resolution + mapInfo.origin.position.x,
-    y: (mapData.height - pixelY) * mapInfo.resolution + mapInfo.origin.position.y
+    y: (mapInfo.height - pixelY) * mapInfo.resolution + mapInfo.origin.position.y
   };
 }
 
-canvas.addEventListener('click', function(event){
-  var point = getWorldPoint(event);
-  if (!point) return;
-
-  target = point;
-
-  document.getElementById('target-x').textContent = target.x.toFixed(2) + 'm';
-  document.getElementById('target-y').textContent = target.y.toFixed(2) + 'm';
-  document.getElementById('send').disabled = false;
-
-  requestAnimationFrame(drawMap);
-});
-
-document.getElementById('clear').addEventListener('click', function(){
-  target = null;
-  document.getElementById('target-x').textContent = '--';
-  document.getElementById('target-y').textContent = '--';
-  document.getElementById('send').disabled = true;
-  requestAnimationFrame(drawMap);
-});
-
-document.getElementById('send').addEventListener('click', function(){
-  if (!target) return;
-
-  goalTopic.publish({
-    header: { frame_id: 'map' },
-    pose: {
-      position: { x: target.x, y: target.y, z: 0.0 },
-      orientation: { x: 0.0, y: 0.0, z: 0.0, w: 1.0 }
-    }
-  });
-});
+${adminScript}
 
 new ROSLIB.Topic({
   ros: ros,
-  name: '/map',
+  name: '/map_web',
   messageType: 'nav_msgs/OccupancyGrid',
   throttle_rate: 500,
   queue_length: 1
@@ -492,7 +506,7 @@ new ROSLIB.Topic({
 
 new ROSLIB.Topic({
   ros: ros,
-  name: '/odom',
+  name: "/odometry/filtered",
   messageType: 'nav_msgs/Odometry',
   throttle_rate: 200,
   queue_length: 1
@@ -554,7 +568,7 @@ new ROSLIB.Topic({
             height: "100%",
             objectFit: "contain",
             display: mapReceived ? "block" : "none",
-            cursor: "crosshair",
+            cursor: isAdmin ? "crosshair" : "default",
           }}
         />
       </div>
@@ -566,53 +580,55 @@ new ROSLIB.Topic({
         <InfoBox label="MAP" value={mapSize} muted />
       </div>
 
-      <div className="mt-[14px] bg-[#111] border border-[#2a2a2a] rounded-[12px] p-[12px]">
-        <div className="flex items-start gap-[8px] mb-[12px]">
-          <Navigation size={15} className="text-[#148bff] mt-[2px] shrink-0" />
+      {isAdmin && (
+        <div className="mt-[14px] bg-[#111] border border-[#2a2a2a] rounded-[12px] p-[12px]">
+          <div className="flex items-start gap-[8px] mb-[12px]">
+            <Navigation size={15} className="text-[#148bff] mt-[2px] shrink-0" />
 
-          <div>
-            <p className="text-[12px] font-extrabold text-white leading-none">
-              Navigation Target
-            </p>
-            <p className="text-[10px] text-[#777] mt-[6px] leading-[14px]">
-              Click on the SLAM map to select a goal.
-            </p>
+            <div>
+              <p className="text-[12px] font-extrabold text-white leading-none">
+                Navigation Target
+              </p>
+              <p className="text-[10px] text-[#777] mt-[6px] leading-[14px]">
+                Click on the SLAM map to select a goal.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-[8px] mb-[12px]">
+            <InfoBox
+              label="TARGET X"
+              value={target ? `${target.x.toFixed(2)}m` : "--"}
+            />
+            <InfoBox
+              label="TARGET Y"
+              value={target ? `${target.y.toFixed(2)}m` : "--"}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-[8px]">
+            <button
+              onClick={handleSendGoal}
+              disabled={!target}
+              className={`h-[36px] rounded-[8px] text-[11px] font-bold transition ${
+                target
+                  ? "bg-[#148bff] text-white hover:bg-[#0f7ee8]"
+                  : "bg-[#1f1f1f] text-[#555] cursor-not-allowed"
+              }`}
+            >
+              SEND GOAL
+            </button>
+
+            <button
+              onClick={handleClearTarget}
+              className="h-[36px] rounded-[8px] bg-[#222] text-[#aaa] text-[11px] font-bold hover:text-white transition flex items-center justify-center gap-1"
+            >
+              <X size={13} />
+              CLEAR
+            </button>
           </div>
         </div>
-
-        <div className="grid grid-cols-2 gap-[8px] mb-[12px]">
-          <InfoBox
-            label="TARGET X"
-            value={target ? `${target.x.toFixed(2)}m` : "--"}
-          />
-          <InfoBox
-            label="TARGET Y"
-            value={target ? `${target.y.toFixed(2)}m` : "--"}
-          />
-        </div>
-
-        <div className="grid grid-cols-2 gap-[8px]">
-          <button
-            onClick={handleSendGoal}
-            disabled={!target}
-            className={`h-[36px] rounded-[8px] text-[11px] font-bold transition ${
-              target
-                ? "bg-[#148bff] text-white hover:bg-[#0f7ee8]"
-                : "bg-[#1f1f1f] text-[#555] cursor-not-allowed"
-            }`}
-          >
-            SEND GOAL
-          </button>
-
-          <button
-            onClick={handleClearTarget}
-            className="h-[36px] rounded-[8px] bg-[#222] text-[#aaa] text-[11px] font-bold hover:text-white transition flex items-center justify-center gap-1"
-          >
-            <X size={13} />
-            CLEAR
-          </button>
-        </div>
-      </div>
+      )}
     </section>
   );
 }
@@ -635,4 +651,4 @@ function InfoBox({ label, value, muted }) {
       </strong>
     </div>
   );
-} 
+}

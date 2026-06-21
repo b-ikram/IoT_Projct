@@ -10,8 +10,8 @@ const IGNORED_NODES = [
   "transform_listener",
   "lifecycle_manager",
 ];
+export default function Sidebar({ page, setPage, isAdmin }) {
 
-export default function Sidebar({ page, setPage }) {
   const [level, setLevel] = useState(70);
   const [voltage, setVoltage] = useState(11.1);
   const [nodes, setNodes] = useState([]);
@@ -117,13 +117,15 @@ export default function Sidebar({ page, setPage }) {
           Dashboard
         </NavButton>
 
-        <NavButton
-          active={page === "settings"}
-          onClick={() => setPage("settings")}
-          icon={<Settings size={16} />}
-        >
-          Settings
-        </NavButton>
+       {isAdmin && (
+  <NavButton
+    active={page === "settings"}
+    onClick={() => setPage("settings")}
+    icon={<Settings size={16} />}
+  >
+    Settings
+  </NavButton>
+)}
       </nav>
 
       <div className="mt-[20px] rounded-[10px] bg-[#2c2c2c] border border-[#383838] px-[12px] py-[12px]">
@@ -158,34 +160,36 @@ export default function Sidebar({ page, setPage }) {
         </div>
       </div>
 
-      <div className="mt-[14px] rounded-[12px] bg-[#2c2c2c] border border-[#383838] px-[14px] py-[14px]">
-        <div className="flex items-center justify-between mb-[10px]">
-          <h3 className="text-[11px] text-[#a7a7a7] tracking-[1.3px] font-extrabold">
-            NODE HEALTH
-          </h3>
+   {isAdmin && (
+  <div className="mt-[14px] rounded-[12px] bg-[#2c2c2c] border border-[#383838] px-[14px] py-[14px]">
+    <div className="flex items-center justify-between mb-[10px]">
+      <h3 className="text-[11px] text-[#a7a7a7] tracking-[1.3px] font-extrabold">
+        NODE HEALTH
+      </h3>
 
-          <span className="text-[10px] text-[#50e38b] font-bold">
-            {nodes.length} ACTIVE
-          </span>
-        </div>
+      <span className="text-[10px] text-[#50e38b] font-bold">
+        {nodes.length} ACTIVE
+      </span>
+    </div>
 
-        <div className="flex flex-col gap-[8px]">
-          {nodes.length === 0 ? (
-            <p className="text-[10px] text-[#777]">
-              No active nodes detected
-            </p>
-          ) : (
-            nodes.map((node) => (
-              <Node
-                key={node.name}
-                name={node.name}
-                status={node.status}
-                error={!node.online}
-              />
-            ))
-          )}
-        </div>
-      </div>
+    <div className="flex flex-col gap-[8px]">
+      {nodes.length === 0 ? (
+        <p className="text-[10px] text-[#777]">
+          No active nodes detected
+        </p>
+      ) : (
+        nodes.map((node) => (
+          <Node
+            key={node.name}
+            name={node.name}
+            status={node.status}
+            error={!node.online}
+          />
+        ))
+      )}
+    </div>
+  </div>
+)}
     </aside>
   );
 }

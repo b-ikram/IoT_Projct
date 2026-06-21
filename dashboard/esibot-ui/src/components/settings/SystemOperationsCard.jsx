@@ -36,7 +36,7 @@ export default function SystemOperationsCard() {
   const handleStartServices = () => {
     if (window.confirm("Start ROS services ?")) {
       sendCommand(
-        "bash -c 'source /opt/ros/humble/setup.bash && source ~/esibot_ws/install/setup.bash && ros2 launch rosbridge_server rosbridge_websocket_launch.xml & sleep 2 && ros2 launch esibot_bringup esibot_driver.launch.py &'"
+        "bash -c 'source /opt/ros/humble/setup.bash && source ~/esibot_ws/install/setup.bash && ros2 launch rosbridge_server rosbridge_websocket_launch.xml & sleep 2 '"
       );
     }
   };
