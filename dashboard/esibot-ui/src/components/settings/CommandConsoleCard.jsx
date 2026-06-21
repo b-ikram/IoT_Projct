@@ -21,6 +21,7 @@ const SCRIPT_COMMANDS = {
   driver: "~/start_driver.sh",
   tout: "~/start_all.sh",
   all: "~/start_all.sh",
+  killall: "~/stop.sh",
 };
 
 function publishCmdVel(linearX, angularZ) {
@@ -31,11 +32,25 @@ function publishCmdVel(linearX, angularZ) {
 }
 
 function executeRobotAction(action) {
-  if (action === "forward") publishCmdVel(0.2, 0.0);
-  else if (action === "backward") publishCmdVel(-0.2, 0.0);
-  else if (action === "left") publishCmdVel(0.0, 0.3);
-  else if (action === "right") publishCmdVel(0.0, -0.3);
-  else if (action === "stop") publishCmdVel(0.0, 0.0);
+  if (action === "forward") {
+    publishCmdVel(0.2, 0.0);
+  } else if (action === "backward") {
+    publishCmdVel(-0.2, 0.0);
+  } else if (action === "left") {
+    publishCmdVel(0.0, 0.5);
+
+    setTimeout(() => {
+      publishCmdVel(0.0, 0.0);
+    }, 800);
+  } else if (action === "right") {
+    publishCmdVel(0.0, -0.5);
+
+    setTimeout(() => {
+      publishCmdVel(0.0, 0.0);
+    }, 800);
+  } else if (action === "stop") {
+    publishCmdVel(0.0, 0.0);
+  }
 }
 
 export default function CommandConsoleCard() {
@@ -157,13 +172,13 @@ export default function CommandConsoleCard() {
   const showHelp = () => {
     setLogs((prev) => [
       ...prev,
-        "═══════════════════════════════",
+      "═══════════════════════════════",
       "Available commands:",
-          "═══════════════════════════════",
-      "Voice/manual → avance, avancer , avant, forward, recule, reculer, arrière backward, gauche, left, droite, right, arrêt stop",
-      "Scripts → slam, camera, driver, tout",
+      "═══════════════════════════════",
+      "Voice/manual → avance, avancer, avant, forward, recule, reculer, arrière, backward, gauche, left, droite, right, arrêt, stop",
+      "Scripts → slam, camera, driver, tout, all, killall",
       "Utility → clear",
-        "═══════════════════════════════",
+      "═══════════════════════════════",
     ]);
   };
 
@@ -269,7 +284,7 @@ export default function CommandConsoleCard() {
           {logs.length === 0 ? (
             <p className="text-[#555]">
               {connected
-                ? "Try: slam, camera, driver, tout, avance, stop..."
+                ? "Try: slam, camera, driver, tout, killall, avance, stop..."
                 : "Waiting for Raspberry..."}
             </p>
           ) : (
@@ -314,7 +329,7 @@ export default function CommandConsoleCard() {
             className="flex-1 bg-transparent outline-none text-[#ccc] placeholder:text-[#555]"
             placeholder={
               connected
-                ? "Try: slam, camera, driver, tout, avance, stop..."
+                ? "Try: slam, camera, driver, tout, killall, avance, stop..."
                 : "Raspberry not connected..."
             }
             onKeyDown={(e) => e.key === "Enter" && handleExecute()}

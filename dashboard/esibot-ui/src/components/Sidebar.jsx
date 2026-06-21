@@ -3,27 +3,18 @@ import { useEffect, useState } from "react";
 import * as ROSLIB from "roslib";
 import { ros } from "../services/ros";
 
-const WATCHED_NODES = [
-  "esibot_driver",
-  "esircam_node",
-  "camera_node",
-  "radar_node",
-  "scan_converter",
-  "slam_toolbox",
-  "mpu_sensor_node",
-  "mpu_odom_node",
+const IGNORED_NODES = [
+  "rosapi",
+  "rosbridge",
+  "rosout",
+  "transform_listener",
+  "lifecycle_manager",
 ];
 
 export default function Sidebar({ page, setPage }) {
   const [level, setLevel] = useState(70);
   const [voltage, setVoltage] = useState(11.1);
-  const [nodes, setNodes] = useState(
-    WATCHED_NODES.map((name) => ({
-      name,
-      online: false,
-      status: "OFFLINE",
-    }))
-  );
+  const [nodes, setNodes] = useState([]);
 
   useEffect(() => {
     const batteryTopic = new ROSLIB.Topic({
@@ -33,8 +24,8 @@ export default function Sidebar({ page, setPage }) {
     });
 
     batteryTopic.subscribe((msg) => {
-      setLevel(Math.round(msg.percentage * 100));
-      setVoltage(Number(msg.voltage).toFixed(1));
+      setLevel(Math.round((msg.percentage || 0) * 100));
+      setVoltage(Number(msg.voltage || 0).toFixed(1));
     });
 
     return () => batteryTopic.unsubscribe();
@@ -53,31 +44,27 @@ export default function Sidebar({ page, setPage }) {
         (result) => {
           const activeNodes = result.nodes || [];
 
-          setNodes(
-            WATCHED_NODES.map((name) => {
-              const isOnline = activeNodes.some(
-                (nodeName) =>
-                  nodeName === `/${name}` ||
-                  nodeName === name ||
-                  nodeName.includes(name)
-              );
+          const cleanNodes = activeNodes
+            .map((nodeName) => nodeName.replace("/", ""))
+            .filter(
+              (nodeName) =>
+                nodeName &&
+                !IGNORED_NODES.some((ignored) =>
+                  nodeName.toLowerCase().includes(ignored)
+                )
+            )
+            .sort();
 
-              return {
-                name,
-                online: isOnline,
-                status: isOnline ? "ACTIVE" : "OFFLINE",
-              };
-            })
+          setNodes(
+            cleanNodes.map((name) => ({
+              name,
+              online: true,
+              status: "ACTIVE",
+            }))
           );
         },
         () => {
-          setNodes(
-            WATCHED_NODES.map((name) => ({
-              name,
-              online: false,
-              status: "OFFLINE",
-            }))
-          );
+          setNodes([]);
         }
       );
     };
@@ -172,19 +159,31 @@ export default function Sidebar({ page, setPage }) {
       </div>
 
       <div className="mt-[14px] rounded-[12px] bg-[#2c2c2c] border border-[#383838] px-[14px] py-[14px]">
-        <h3 className="text-[11px] text-[#a7a7a7] tracking-[1.3px] font-extrabold mb-[10px]">
-          NODE HEALTH
-        </h3>
+        <div className="flex items-center justify-between mb-[10px]">
+          <h3 className="text-[11px] text-[#a7a7a7] tracking-[1.3px] font-extrabold">
+            NODE HEALTH
+          </h3>
+
+          <span className="text-[10px] text-[#50e38b] font-bold">
+            {nodes.length} ACTIVE
+          </span>
+        </div>
 
         <div className="flex flex-col gap-[8px]">
-          {nodes.map((node) => (
-            <Node
-              key={node.name}
-              name={node.name}
-              status={node.status}
-              error={!node.online}
-            />
-          ))}
+          {nodes.length === 0 ? (
+            <p className="text-[10px] text-[#777]">
+              No active nodes detected
+            </p>
+          ) : (
+            nodes.map((node) => (
+              <Node
+                key={node.name}
+                name={node.name}
+                status={node.status}
+                error={!node.online}
+              />
+            ))
+          )}
         </div>
       </div>
     </aside>
