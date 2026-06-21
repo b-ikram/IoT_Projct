@@ -22,7 +22,12 @@ const SCRIPT_COMMANDS = {
   tout: "~/start_all.sh",
   all: "~/start_all.sh",
   killall: "~/stop.sh",
+  checkrosbridge: "~/check_rosbridge.sh",
+  killrosbridge: "~/kill_rosbridge.sh",
 };
+
+let motionIntervalId = null;
+let turnTimeoutId = null;
 
 function publishCmdVel(linearX, angularZ) {
   cmdVel.publish({
@@ -31,25 +36,71 @@ function publishCmdVel(linearX, angularZ) {
   });
 }
 
+function stopMotion() {
+  if (motionIntervalId) {
+    clearInterval(motionIntervalId);
+    motionIntervalId = null;
+  }
+
+  if (turnTimeoutId) {
+    clearTimeout(turnTimeoutId);
+    turnTimeoutId = null;
+  }
+
+  publishCmdVel(0.0, 0.0);
+}
+
+function startContinuousMotion(linearX, angularZ) {
+  if (motionIntervalId) {
+    clearInterval(motionIntervalId);
+  }
+
+  publishCmdVel(linearX, angularZ);
+
+  motionIntervalId = setInterval(() => {
+    publishCmdVel(linearX, angularZ);
+  }, 200);
+}
+
 function executeRobotAction(action) {
   if (action === "forward") {
-    publishCmdVel(0.2, 0.0);
-  } else if (action === "backward") {
-    publishCmdVel(-0.2, 0.0);
-  } else if (action === "left") {
-    publishCmdVel(0.0, 0.5);
+    if (turnTimeoutId) {
+      clearTimeout(turnTimeoutId);
+      turnTimeoutId = null;
+    }
 
-    setTimeout(() => {
-      publishCmdVel(0.0, 0.0);
+    startContinuousMotion(0.2, 0.0);
+  } else if (action === "backward") {
+    if (turnTimeoutId) {
+      clearTimeout(turnTimeoutId);
+      turnTimeoutId = null;
+    }
+
+    startContinuousMotion(-0.2, 0.0);
+  } else if (action === "left") {
+    if (turnTimeoutId) {
+      clearTimeout(turnTimeoutId);
+    }
+
+    startContinuousMotion(0.0, 0.55);
+
+    turnTimeoutId = setTimeout(() => {
+      startContinuousMotion(0.2, 0.0);
+      turnTimeoutId = null;
     }, 800);
   } else if (action === "right") {
-    publishCmdVel(0.0, -0.5);
+    if (turnTimeoutId) {
+      clearTimeout(turnTimeoutId);
+    }
 
-    setTimeout(() => {
-      publishCmdVel(0.0, 0.0);
+    startContinuousMotion(0.0, -0.55);
+
+    turnTimeoutId = setTimeout(() => {
+      startContinuousMotion(0.2, 0.0);
+      turnTimeoutId = null;
     }, 800);
   } else if (action === "stop") {
-    publishCmdVel(0.0, 0.0);
+    stopMotion();
   }
 }
 
@@ -73,7 +124,10 @@ export default function CommandConsoleCard() {
 
     onMessage("console", handler);
 
-    return () => offMessage("console", handler);
+    return () => {
+      offMessage("console", handler);
+      stopMotion();
+    };
   }, []);
 
   useEffect(() => {
@@ -175,8 +229,10 @@ export default function CommandConsoleCard() {
       "═══════════════════════════════",
       "Available commands:",
       "═══════════════════════════════",
-      "Voice/manual → avance, avancer, avant, forward, recule, reculer, arrière, backward, gauche, left, droite, right, arrêt, stop",
+      "Voice/manual → avance, forward, recule, backward, gauche, left, droite, right, stop",
+      "Movement behavior → forward/backward continues until stop; left/right turns then moves forward until stop",
       "Scripts → slam, camera, driver, tout, all, killall",
+      "Rosbridge → checkrosbridge, killrosbridge",
       "Utility → clear",
       "═══════════════════════════════",
     ]);
@@ -284,7 +340,7 @@ export default function CommandConsoleCard() {
           {logs.length === 0 ? (
             <p className="text-[#555]">
               {connected
-                ? "Try: slam, camera, driver, tout, killall, avance, stop..."
+                ? "Try: slam, camera, driver, tout, killall, checkrosbridge, killrosbridge, avance, stop..."
                 : "Waiting for Raspberry..."}
             </p>
           ) : (
@@ -309,6 +365,7 @@ export default function CommandConsoleCard() {
                     : log.toLowerCase().includes("available") ||
                       log.toLowerCase().includes("voice/manual") ||
                       log.toLowerCase().includes("scripts") ||
+                      log.toLowerCase().includes("rosbridge") ||
                       log.toLowerCase().includes("utility")
                     ? "text-[#facc15]"
                     : ""
@@ -329,7 +386,7 @@ export default function CommandConsoleCard() {
             className="flex-1 bg-transparent outline-none text-[#ccc] placeholder:text-[#555]"
             placeholder={
               connected
-                ? "Try: slam, camera, driver, tout, killall, avance, stop..."
+                ? "Try: slam, camera, driver, tout, killall, checkrosbridge, killrosbridge, avance, stop..."
                 : "Raspberry not connected..."
             }
             onKeyDown={(e) => e.key === "Enter" && handleExecute()}

@@ -2,6 +2,7 @@ import { Bot, Home, Settings, Battery } from "lucide-react";
 import { useEffect, useState } from "react";
 import * as ROSLIB from "roslib";
 import { ros } from "../services/ros";
+import { supabase } from "../services/supabaseClient";
 
 const IGNORED_NODES = [
   "rosapi",
@@ -92,7 +93,7 @@ export default function Sidebar({ page, setPage, isAdmin }) {
   const batteryHealth = level > 70 ? "OK" : level > 30 ? "Low" : "Critical";
 
   return (
-    <aside className="h-full w-full bg-[#1E1E1E] border-r border-[#303030] px-[14px] py-[14px] flex flex-col text-white overflow-y-auto overflow-x-hidden">
+    <aside className="h-full w-full bg-[#1E1E1E] border-r border-[#303030] px-[14px] py-[14px] flex flex-col text-white overflow-y-auto overflow-x-hidden overflow-x-hidden ">
       <div className="flex items-center gap-[12px] px-[6px]">
         <div className="w-[38px] h-[38px] rounded-[10px] bg-gradient-to-br from-[#0b74ff] to-[#159bff] grid place-items-center shadow-[0_8px_20px_rgba(20,139,255,.35)]">
           <Bot size={22} strokeWidth={2.5} />
@@ -190,6 +191,42 @@ export default function Sidebar({ page, setPage, isAdmin }) {
     </div>
   </div>
 )}
+
+
+
+
+<div className="mt-auto pt-4">
+  <button
+    onClick={() => supabase.auth.signOut()}
+    className="
+      w-full
+      h-[46px]
+      flex items-center justify-center gap-3
+      rounded-[14px]
+      border border-[#4a1d1d]
+      bg-gradient-to-r from-[#2b1313] to-[#1d1010]
+      text-[#ff6b6b]
+      font-bold text-[13px]
+      shadow-[0_0_15px_rgba(255,80,80,0.12)]
+      hover:border-[#ff5050]
+      hover:bg-[#351515]
+      hover:shadow-[0_0_20px_rgba(255,80,80,0.25)]
+      transition-all duration-300
+      active:scale-[0.97]
+    "
+  >
+    <svg
+      className="w-[17px] h-[17px]"
+      viewBox="0 0 512 512"
+      fill="currentColor"
+    >
+      <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z" />
+    </svg>
+
+    <span className="w-2 h-2 rounded-full bg-[#ff5050] animate-pulse" />
+<span>Logout</span>
+  </button>
+</div>
     </aside>
   );
 }

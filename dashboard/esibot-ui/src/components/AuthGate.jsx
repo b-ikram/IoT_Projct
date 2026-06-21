@@ -107,46 +107,8 @@ export default function AuthGate({ children }) {
   }
 
   if (session) {
-    return (
-      <>
-        <button
-          type="button"
-          onClick={signOut}
-          style={{
-            position: "fixed",
-            top: "18px",
-            right: "18px",
-            zIndex: 99999,
-          }}
-          className="
-            h-[40px]
-            px-4
-            rounded-[12px]
-            bg-[#202020]
-            border
-            border-[#3a3a3a]
-            text-[#e5e5e5]
-            text-[12px]
-            font-bold
-            flex
-            items-center
-            gap-2
-            shadow-[0_8px_25px_rgba(0,0,0,0.45)]
-            hover:border-[#ff5050]
-            hover:text-[#ff5050]
-            hover:bg-[#2a1515]
-            active:scale-[0.96]
-            transition
-          "
-        >
-          <LogOut size={15} />
-          Logout
-        </button>
-
-        {children}
-      </>
-    );
-  }
+  return <>{children}</>;
+}
 
   return (
     <div className="min-h-screen bg-[#101010] flex items-center justify-center text-white px-4">
