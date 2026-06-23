@@ -117,7 +117,7 @@ export default function MapPanel({ isAdmin }) {
 
     const odomTopic = new ROSLIB.Topic({
       ros,
-      name: "/odometry/filtered",
+      name: "/odom",
       messageType: "nav_msgs/Odometry",
       throttle_rate: 200,
       queue_length: 1,
@@ -361,7 +361,7 @@ button{height:36px;border-radius:9px;border:none;font-size:11px;font-weight:900;
 
 <script src="https://cdn.jsdelivr.net/npm/roslib@1.4.1/build/roslib.min.js"></script>
 <script>
-var ros = new ROSLIB.Ros({ url: 'ws://iot-project:9090' });
+var ros = new ROSLIB.Ros({ url: 'ws://172.20.10.9:9090' });
 
 var mapInfo = null;
 var mapData = null;
