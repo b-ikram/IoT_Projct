@@ -271,7 +271,7 @@ ros2 launch esibot_description rsp.launch.py
 
 ```bash
 cd dashboard/esibot-ui
-npm run dev
+npm run dev -- --host 
 # Dashboard available at http://localhost:5173
 ```
 
@@ -283,6 +283,7 @@ npm run dev
 - **Build Tool**: Vite
 - **Styling**: TailwindCSS
 - **ROS Integration**: ROSlib (WebSocket bridge)
+- **Authentication**: Supabase Email/Password + Google OAuth
 - **Visualization**: ROS2D, EaselJS
 - **Routing**: React Router v7
 
