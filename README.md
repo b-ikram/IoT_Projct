@@ -288,7 +288,7 @@ npm run dev
 
 ---
 
-## 👥 Team Members
+## Team Members
 
 **ESIBOT** is developed by a dedicated team at **ESI (Ecole Nationale Supérieure d'Informatique)**.
 
