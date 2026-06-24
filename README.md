@@ -307,13 +307,8 @@ npm run dev
 ### Institution
 
 **École Nationale Supérieure d'Informatique (ESI)**
-- Leading computer science school in Algeria
-- Specialized in computer science education and research
-- Fostering innovation and technical excellence
 
----
-
-## 📄 License
+## License
 
 Apache 2.0
 
