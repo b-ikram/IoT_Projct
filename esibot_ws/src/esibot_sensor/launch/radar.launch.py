@@ -34,38 +34,22 @@ def generate_launch_description():
     # 3. Encoder counts
     encoder_node = Node(
         package="esibot_sensor",
-        executable="encoder_service",
+        executable="encoder_node",
         name="encoder_node",
         output="screen",
         parameters=[encoder_params_file],
     )
 
-    # 4. Liaison geometrique statique
-    static_tf_node = Node(
-        package="tf2_ros",
-        executable="static_transform_publisher",
-        name="footprint_to_radar",
-        arguments=["0", "0", "0.1", "0", "0", "0", "base_footprint", "radar_link"],
-        output="screen",
-    )
-
-    # 5. Lecture capteur MPU6050
+    # 4. Lecture capteur MPU6050
     mpu_hardware_node = Node(
         package="esibot_sensor",
         executable="mpu_service",
         name="mpu_node",
         output="screen",
+        parameters=[mpu_params_file],
     )
 
-    # 6. Calcul odometrie MPU6050
-    mpu_odom_node = Node(
-        package="esibot_sensor",
-        executable="odom_service",
-        name="mpu_odom_node",
-        output="screen",
-    )
-
-    # 7. SLAM avec config
+    # 5. SLAM avec config
     slam_toolbox_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(
@@ -85,9 +69,7 @@ def generate_launch_description():
             radar_node,
             scan_converter_node,
             encoder_node,
-            static_tf_node,
             mpu_hardware_node,
-            mpu_odom_node,
             slam_toolbox_launch,
         ]
     )

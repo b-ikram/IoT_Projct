@@ -8,7 +8,7 @@ radar_node:
         # Servo angles (deg) where measurements are taken
         servo_scan_angles_deg: [0.0, 30.0, 60.0]
         # GPIO pin (BCM) driving the servo PWM signal
-        servo_gpio_pin: 18
+        servo_gpio_pin: 24
         # Minimum servo angle allowed (deg)
         servo_min_angle_deg: 0.0
         # Maximum servo angle allowed (deg)
@@ -26,7 +26,7 @@ radar_node:
         # Trigger pulse high time for ultrasonic distance sensor V2 (seconds)
         trigger_pulse_high_sec: 0.000010
         # Echo timeout for ultrasonic reading (seconds)
-        echo_timeout_sec: 0.03
+        echo_timeout_sec: 0.1
         # Delay between reading adjacent sensors (seconds)
         inter_sensor_delay_sec: 0.02
         # Speed of sound used for distance calculation (cm/s)

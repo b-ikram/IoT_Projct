@@ -1,0 +1,74 @@
+# =============================================================================
+#  EKF configuration for robot_localization
+# =============================================================================
+#
+#  Inputs:
+#    odom0  — /wheel/odometry   (diff-drive wheel encoder odometry)
+#    imu0   — /imu/data         (raw MPU6050 IMU)
+#
+#  Output:
+#    /odometry/filtered          (fused odometry)
+#    TF: odom → base_link       (localization transform)
+#
+#  Config array order (15 bools):
+#    [x, y, z, roll, pitch, yaw,
+#     vx, vy, vz, vroll, vpitch, vyaw,
+#     ax, ay, az]
+# =============================================================================
+
+ekf_node:
+    ros__parameters:
+        # ---- general ----
+        frequency: 20.0
+        sensor_timeout: 0.1
+        two_d_mode: true
+        publish_tf: true
+        print_diagnostics: true
+
+        # ---- frame ids ----
+        map_frame: map
+        odom_frame: odom
+        base_link_frame: base_footprint
+        world_frame: odom
+
+        # ==================================================================
+        #  odom0 — Wheel odometry  (/wheel/odometry)
+        # ==================================================================
+        #  We fuse VELOCITIES (twist), not poses, from the wheel encoders.
+        #  - vx  (index 6):  forward velocity from differential-drive math
+        #  - vyaw (index 11): yaw rate from differential-drive math
+        #
+        odom0: /wheel/odometry
+        odom0_config:
+            [
+                false, false, false,
+                false, false, false,
+                true,  false, false,
+                false, false, true,
+                false, false, false,
+            ]
+        odom0_differential: false
+        odom0_relative: false
+
+        # ==================================================================
+        #  imu0 — Raw IMU  (/imu/data)
+        # ==================================================================
+        #  We fuse the gyroscope yaw rate directly from the IMU.
+        #  This is the key improvement: the EKF blends the gyro's yaw rate
+        #  with the wheel-derived yaw rate using Kalman filtering, giving
+        #  a far more accurate heading than either source alone.
+        #
+        #  - vyaw (index 11): angular_velocity.z from the gyroscope
+        #
+        imu0: /imu/data
+        imu0_config:
+            [
+                false, false, false,
+                false, false, false,
+                false, false, false,
+                false, false, true,
+                false, false, false,
+            ]
+        imu0_differential: false
+        imu0_relative: false
+        imu0_remove_gravitational_acceleration: true

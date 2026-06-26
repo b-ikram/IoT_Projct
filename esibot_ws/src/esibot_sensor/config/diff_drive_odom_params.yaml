@@ -1,0 +1,28 @@
+diff_drive_odom_node:
+    ros__parameters:
+        # Input topics (raw encoder tick counts)
+        left_encoder_topic: "/encoders/left"
+        right_encoder_topic: "/encoders/right"
+        # Output topic (wheel odometry)
+        odom_topic: "/wheel/odometry"
+        # Encoder ticks per full wheel revolution
+        ticks_per_rev: 20.0
+        # Wheel radius (metres)
+        wheel_radius: 0.033
+        # Distance between left and right wheel centres (metres)
+        wheel_separation: 0.17
+        # Odometry publish rate (Hz)
+        publish_rate_hz: 20.0
+        # TF frame names
+        frame_id: "odom"
+        child_frame_id: "base_footprint"
+        # Invert encoder direction if wired backwards
+        invert_left: false
+        invert_right: false
+        # Pose covariance diagonals (m², rad²)
+        pose_cov_x: 0.01
+        pose_cov_y: 0.01
+        pose_cov_yaw: 0.03
+        # Twist covariance diagonals ((m/s)², (rad/s)²)
+        twist_cov_vx: 0.01
+        twist_cov_vyaw: 0.05

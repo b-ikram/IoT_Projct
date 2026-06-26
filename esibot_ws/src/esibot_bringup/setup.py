@@ -15,6 +15,8 @@ setup(
         ('share/' + package_name, ['package.xml']),
         # Correctly joins the path for launch files
         (os.path.join('share', package_name, 'launch'), glob('launch/*.launch.py')),
+        (os.path.join('share', package_name, 'config'), glob('config/*')),
+        (os.path.join('share', package_name, 'maps'), glob('maps/*')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,

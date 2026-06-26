@@ -10,7 +10,7 @@ import numpy as np
 
 import rclpy
 from rclpy.node import Node
-
+from rclpy.qos import QoSProfile, ReliabilityPolicy
 from sensor_msgs.msg import Image, CompressedImage
 
 
@@ -40,8 +40,9 @@ class EsiRCamNode(Node):
         # -----------------------
         # Publishers
         # -----------------------
+        camera_qos = QoSProfile(depth=1, reliability=ReliabilityPolicy.BEST_EFFORT)
         self.image_pub = self.create_publisher(Image, self.image_topic, 10)
-        self.compressed_pub = self.create_publisher(CompressedImage, self.compressed_topic, 10)
+        self.compressed_pub = self.create_publisher(CompressedImage, self.compressed_topic, camera_qos)
 
         # -----------------------
         # Internal state
